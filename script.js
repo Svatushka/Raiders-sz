@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusDiv = document.getElementById('form-status');
 
     // ⚠️ ВСТАВЬТЕ ССЫЛКУ НА ВАШ ВЕБХУК DISCORD НИЖЕ
-    const WEBHOOK_URL = 'https://discord.com/api/webhooks/1564231664337428501/C8abZ01ZEyzkOd4oxOva6bLqc6i1UUxDtIqstZH1vxOqKu78ykphM83ZWK48dRw38rMO';
+    const WEBHOOK_URL = 'ВАША_ССЫЛКА_НА_ВЕБХУК';
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
