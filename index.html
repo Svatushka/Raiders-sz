@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Клан Рейдеры [FSBP] | Stalzone</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Шрифты для киберпанк/сталкер стиля -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Шапка с обложкой -->
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <img src="images/cover.jpg" alt="Клан Рейдеры [FSBP]" class="cover-image">
+            <h1 class="glitch-text" data-text="РЕЙДЕРЫ [FSBP]">РЕЙДЕРЫ [FSBP]</h1>
+            <p class="subtitle">Зона ждет. Кибер-импланты готовы. Stalzone.</p>
+        </div>
+    </header>
+
+    <!-- Блок с информацией и аватаркой -->
+    <section class="clan-info">
+        <div class="info-container">
+            <img src="images/avatar.png" alt="Аватар клана" class="clan-avatar">
+            <div class="info-text">
+                <h2>О нас</h2>
+                <p>Мы — элитный отряд выживших в секторе Z. Наши импланты настроены на выживание, а оружие модифицировано по последнему слову техники. Мы не ищем легких путей, мы создаем их. Вступай в наши ряды, если твой хром не подведет тебя в пекле аномалий.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма подачи заявки -->
+    <section class="application-section">
+        <div class="terminal-border">
+            <h2>Терминал набора: ЗАЯВКА</h2>
+            <form id="clan-form">
+                <div class="input-group">
+                    <label for="nickname">1. Ваш ник:</label>
+                    <input type="text" id="nickname" name="nickname" required placeholder="Введите позывной">
+                </div>
+                <div class="input-group">
+                    <label for="age">2. Возраст:</label>
+                    <input type="number" id="age" name="age" required min="14" max="99" placeholder="Лет">
+                </div>
+                <div class="input-group">
+                    <label for="timezone">3. Время от МСК:</label>
+                    <input type="text" id="timezone" name="timezone" required placeholder="Например: МСК+2, МСК-1">
+                </div>
+                <div class="input-group">
+                    <label for="occupation">4. Чем занимаетесь?</label>
+                    <select id="occupation" name="occupation" required>
+                        <option value="" disabled selected>Выберите вариант</option>
+                        <option value="Работа">Работа</option>
+                        <option value="Учеба">Учеба</option>
+                        <option value="Работа + Учеба">Работа + Учеба</option>
+                        <option value="Фриланс/Другое">Фриланс/Другое</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="experience">5. Опыт в кланах:</label>
+                    <textarea id="experience" name="experience" rows="2" required placeholder="Были ли вы в кланах ранее? Какой опыт?"></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="contact">6. Как с вами связаться?</label>
+                    <input type="text" id="contact" name="contact" required placeholder="Discord, Telegram или Steam ID">
+                </div>
+                
+                <button type="submit" id="submit-btn">ОТПРАВИТЬ ЗАЯВКУ</button>
+                <div id="form-status"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <p>[FSBP] RAIDERS © 2026. Связь с командованием: Discord</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
