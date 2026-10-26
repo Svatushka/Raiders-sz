@@ -4,34 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Клан Рейдеры [FSBP] | Stalzone</title>
+    
+    <!-- ВОТ ЭТА СТРОКА ДОБАВЛЯЕТ ИКОНКУ НА ВКЛАДКУ -->
+    <link rel="icon" type="image/png" href="images/okno.png">
+    
     <link rel="stylesheet" href="style.css">
-    <!-- Шрифты для киберпанк/сталкер стиля -->
+    <!-- ... остальные подключения шрифтов ... -->
+    
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Фон с частицами -->
+    <div id="particles-js"></div>
+
     <!-- Шапка с обложкой -->
     <header class="hero">
         <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <img src="images/cover.jpg" alt="Клан Рейдеры [FSBP]" class="cover-image">
-            <h1 class="glitch-text" data-text="РЕЙДЕРЫ [FSBP]">РЕЙДЕРЫ [FSBP]</h1>
-            <p class="subtitle">Зона ждет. Кибер-импланты готовы. Stalzone.</p>
+        <div class="hero-content" data-aos="zoom-in" data-aos-duration="1500">
+            <!-- Тег img убран, картинка теперь в CSS -->
+            <h1 class="glitch-text">Reiders [FSBP]</h1>
+            <p class="subtitle">Зона ждет. Молодой клан. Stalzone.</p>
         </div>
     </header>
 
     <!-- Блок с информацией и аватаркой -->
-    <section class="clan-info">
+    <section class="clan-info" data-aos="fade-right">
         <div class="info-container">
             <img src="images/avatar.png" alt="Аватар клана" class="clan-avatar">
             <div class="info-text">
                 <h2>О нас</h2>
-                <p>Мы — элитный отряд выживших в секторе Z. Наши импланты настроены на выживание, а оружие модифицировано по последнему слову техники. Мы не ищем легких путей, мы создаем их. Вступай в наши ряды, если твой хром не подведет тебя в пекле аномалий.</p>
+                <p>Мы — молодой клан с опытным руководством. Наша команда состоит из проверенных наемников, имеющих за плечами большой опыт в клановой жизни..</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок: Состав клана -->
+    <section class="roster-section">
+        <h2 class="section-title" data-aos="fade-up">Старший состав</h2>
+        <div class="roster-grid">
+            <div class="roster-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="member-avatar"></div>
+                <h3>Саня_Дагон</h3>
+                <p class="role">Лидер</p>
+                <p class="status online">В сети</p>
+            </div>
+            <div class="roster-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="member-avatar"></div>
+                <h3>Andrey_Kyzmichk</h3>
+                <p class="role">Коллер</p>
+                <p class="status online">В сети</p>
+            </div>
+            <div class="roster-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="member-avatar"></div>
+                <h3>Cyber_Zombie</h3>
+                <p class="role">Штурмовик</p>
+                <p class="status offline">Не в сети</p>
+            </div>
+            <div class="roster-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="member-avatar"></div>
+                <h3>Void_Hacker</h3>
+                <p class="role">Хакер</p>
+                <p class="status online">В сети</p>
+            </div>
+            <div class="roster-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="member-avatar"></div>
+                <h3>Steel_Sniper</h3>
+                <p class="role">Снайпер</p>
+                <p class="status offline">Не в сети</p>
+            </div>
+            <div class="roster-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="member-avatar"></div>
+                <h3>Med_Tech</h3>
+                <p class="role">Медик</p>
+                <p class="status online">В сети</p>
+            </div>
+            <div class="roster-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="member-avatar"></div>
+                <h3>Rust_Scav</h3>
+                <p class="role">Разведчик</p>
+                <p class="status offline">Не в сети</p>
+            </div>
+            <div class="roster-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="member-avatar"></div>
+                <h3>Neon_Rookie</h3>
+                <p class="role">Новобранец</p>
+                <p class="status online">В сети</p>
             </div>
         </div>
     </section>
 
     <!-- Форма подачи заявки -->
-    <section class="application-section">
+    <section class="application-section" data-aos="fade-left">
         <div class="terminal-border">
             <h2>Терминал набора: ЗАЯВКА</h2>
             <form id="clan-form">
@@ -74,9 +138,11 @@
 
     <!-- Подвал -->
     <footer>
-        <p>[FSBP] RAIDERS © 2026. Связь с командованием: Discord</p>
+        <p>[FSBP] RAIDERS © 2026.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
