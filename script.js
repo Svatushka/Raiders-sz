@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = document.getElementById('submit-btn');
     const statusDiv = document.getElementById('form-status');
 
-    // ВСТАВЬТЕ ССЫЛКУ ВНУТРЬ КАВЫЧЕК НИЖЕ:
-    const DISCORD_WEBHOOK_URL = 'ВАША_ССЫЛКА_НА_ВЕБХУК';
+    
+    const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1564231664337428501/C8abZ01ZEyzkOd4oxOva6bLqc6i1UUxDtIqstZH1vxOqKu78ykphM83ZWK48dRw38rMO';
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault(); // Отменяем стандартную отправку формы
@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            // Обратите внимание на запятую после DISCORD_WEBHOOK_URL!
-            const response = await fetch(https://discord.com/api/webhooks/1564231664337428501/C8abZ01ZEyzkOd4oxOva6bLqc6i1UUxDtIqstZH1vxOqKu78ykphM83ZWK48dRw38rMO, {
+            
+            const response = await fetch(DISCORD_WEBHOOK_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
