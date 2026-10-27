@@ -5,33 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Клан Рейдеры [FSBP] | Stalzone</title>
 
-    <link rel="icon" type="image/png" href="images/okno.png">
-    <link rel="stylesheet" href="style.css">
+    <!-- SEO: основные мета-теги -->
+    <meta name="description" content="Клан Рейдеры [FSBP] — молодой клан с опытным руководством в Stalzone. Набор открыт. Присоединяйся!">
+    <link rel="canonical" href="https://ВАШ-ЛОГИН.github.io/ИМЯ-РЕПО/">
 
+    <!-- Open Graph (Discord, Telegram, VK) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Клан Рейдеры [FSBP] | Stalzone">
+    <meta property="og:description" content="Молодой клан с опытным руководством. Набор открыт.">
+    <meta property="og:image" content="https://ВАШ-ЛОГИН.github.io/ИМЯ-РЕПО/images/cover.jpg">
+    <meta property="og:url" content="https://ВАШ-ЛОГИН.github.io/ИМЯ-РЕПО/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Клан Рейдеры [FSBP]">
+    <meta name="twitter:description" content="Молодой клан с опытным руководством. Набор открыт.">
+    <meta name="twitter:image" content="https://ВАШ-ЛОГИН.github.io/ИМЯ-РЕПО/images/cover.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/okno.png?v=2">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/okno.png?v=2">
+    <link rel="apple-touch-icon" href="images/okno.png?v=2">
+    <link rel="shortcut icon" href="images/okno.png?v=2">
+
+    <!-- Стили и шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <!-- SEO: Основные мета-теги -->
-<meta name="description" content="Клан Рейдеры [FSBP] — молодой клан с опытным руководством в Stalzone. Набор открыт. Присоединяйся!">
-<link rel="canonical" href="https://ВАШ-ЛОГИН.github.io/ИМЯ-РЕПО/">
-
-<!-- Open Graph (для Discord, Telegram, VK) -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="Клан Рейдеры [FSBP] | Stalzone">
-<meta property="og:description" content="Молодой клан с опытным руководством. Набор открыт.">
-<meta property="og:image" content="https://svatushka.github.io/Raiders-sz/images/cover.jpg">
-<meta property="og:url" content="https://svatushka.github.io/Raiders-sz/">
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Клан Рейдеры [FSBP]">
-<meta name="twitter:description" content="Молодой клан с опытным руководством. Набор открыт.">
-<meta name="twitter:image" content="https://svatushka.github.io/Raiders-sz/images/cover.jpg">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button id="back-to-top" aria-label="Наверх">
-  <span class="glitch-arrow">↑</span>
-</button>
+
     <!-- Шапка с обложкой -->
     <header class="hero">
         <div class="hero-overlay"></div>
@@ -44,16 +49,16 @@
     <!-- Блок с информацией и аватаркой -->
     <section class="clan-info" data-aos="fade-right">
         <div class="info-container">
-            <img src="images/avatar.png" alt="Аватар клана" class="clan-avatar">
+            <img src="images/avatar.png" alt="Аватар клана" class="clan-avatar" loading="lazy">
             <div class="info-text">
                 <h2>О нас</h2>
-                <p>Мы — молодой клан с опытным руководством. Наша команда состоит из проверенных наемников, имеющих за плечами большой опыт в клановой жизни..</p>
+                <p>Мы — молодой клан с опытным руководством. Наша команда состоит из проверенных наемников, имеющих за плечами большой опыт в клановой жизни.</p>
             </div>
         </div>
     </section>
 
     <!-- Блок: Состав клана -->
-    <section class="roster-section">
+    <section class="roster-section" id="roster">
         <h2 class="section-title" data-aos="fade-up">Старший состав</h2>
         <div class="roster-grid">
             <div class="roster-card" data-aos="fade-up" data-aos-delay="100">
@@ -108,10 +113,10 @@
     </section>
 
     <!-- Форма подачи заявки -->
-    <section class="application-section" data-aos="fade-left">
+    <section class="application-section" id="apply" data-aos="fade-left">
         <div class="terminal-border">
             <h2>Терминал набора: ЗАЯВКА</h2>
-            <form id="clan-form">
+            <form id="clan-form" novalidate>
                 <div class="input-group">
                     <label for="nickname">1. Ваш ник:</label>
                     <input type="text" id="nickname" name="nickname" required placeholder="Введите позывной">
@@ -143,8 +148,12 @@
                     <input type="text" id="contact" name="contact" required placeholder="Discord, Telegram или Steam ID">
                 </div>
 
+                <!-- Honeypot для ботов: невидимое поле, люди его не заполняют -->
+                <input type="text" name="website" tabindex="-1" autocomplete="off"
+                       aria-hidden="true" class="honeypot">
+
                 <button type="submit" id="submit-btn">ОТПРАВИТЬ ЗАЯВКУ</button>
-                <div id="form-status"></div>
+                <div id="form-status" role="status" aria-live="polite"></div>
             </form>
         </div>
     </section>
@@ -154,6 +163,12 @@
         <p>[FSBP] RAIDERS © 2026.</p>
     </footer>
 
+    <!-- Кнопка "Наверх" -->
+    <button id="back-to-top" aria-label="Наверх">
+        <span class="glitch-arrow">↑</span>
+    </button>
+
+    <!-- Скрипты -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
 </body>
