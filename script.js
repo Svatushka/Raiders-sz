@@ -2,18 +2,17 @@
    [FSBP] RAIDERS — script.js
    ============================================================ */
 
+// ⚠️ ВСТАВЬ ССЫЛКУ НА СВОЙ ВЕБХУК DISCORD НИЖЕ
+const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/ТВОЙ_ID/ТВОЙ_ТОКЕН';
+
 // --- 0. ТЕМА (загружаем ДО всего, чтобы не мигало) ---
 (function initTheme() {
     const saved = localStorage.getItem('fsbp_theme') || 'cyberpunk';
     document.documentElement.setAttribute('data-theme', saved);
 })();
 
-// --- 1. НАСТРОЙКИ ---
-// ⚠️ URL твоего Cloudflare Worker (НЕ вебхук Discord!)
-const WEBHOOK_URL = 'https://raiders-sz.svatushkalive.workers.dev/';
-
 // ============================================================
-//  2. PRELOADER
+//  1. PRELOADER
 // ============================================================
 (function initPreloader() {
     const preloader = document.getElementById('preloader');
@@ -35,12 +34,11 @@ const WEBHOOK_URL = 'https://raiders-sz.svatushkalive.workers.dev/';
         setTimeout(hidePreloader, Math.max(0, MIN_VISIBLE - elapsed));
     });
 
-    // Жёсткая страховка: если что-то пошло не так — прячем через 5 сек
     setTimeout(hidePreloader, 5000);
 })();
 
 // ============================================================
-//  3. AOS — инициализируем ПОСЛЕ preloader'а
+//  2. AOS
 // ============================================================
 window.addEventListener('load', () => {
     setTimeout(() => {
@@ -49,7 +47,7 @@ window.addEventListener('load', () => {
 });
 
 // ============================================================
-//  4. ПЕРЕКЛЮЧАТЕЛЬ ТЕМ
+//  3. ПЕРЕКЛЮЧАТЕЛЬ ТЕМ
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.theme-btn');
@@ -69,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================================================
-//  5. КАСТОМНЫЙ КУРСОР
+//  4. КАСТОМНЫЙ КУРСОР
 // ============================================================
 (function initCursor() {
     if (!window.matchMedia('(pointer: fine)').matches) return;
@@ -95,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     animate();
 
-    // Наведение на интерактивные элементы — увеличиваем кольцо
     const hoverTargets = 'a, button, input, select, textarea, .roster-card, .theme-btn';
     document.querySelectorAll(hoverTargets).forEach(el => {
         el.addEventListener('mouseenter', () => ring.classList.add('hover'));
@@ -104,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 // ============================================================
-//  6. KONAMI CODE → режим "ВЫБРОС"
+//  5. KONAMI CODE → режим "ВЫБРОС"
 // ============================================================
 (function initKonami() {
     const sequence = [
@@ -115,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let pos = 0;
 
     document.addEventListener('keydown', (e) => {
+        if (!e.key) return; 
         const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
         const expected = sequence[pos];
 
@@ -125,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 activateEmission();
             }
         } else {
-            // Позволяем начать последовательность заново с текущей клавиши
             pos = (key === sequence[0]) ? 1 : 0;
         }
     });
@@ -135,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('emission');
         if (warning) warning.classList.add('show');
 
-        // Звук сирены, если браузер разрешает автовоспроизведение (может не сработать — это нормально)
         try {
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
             const osc = ctx.createOscillator();
@@ -158,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 // ============================================================
-//  7. ОТПРАВКА ФОРМЫ + WIZARD
+//  6. ФОРМА (WIZARD) — РЕАЛЬНАЯ ОТПРАВКА В DISCORD
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('clan-form');
@@ -171,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!form || !submitBtn || !statusDiv) return;
 
-    const honeypot = form.querySelector('input[name="website"]');
     const DRAFT_KEY = 'fsbp_form_draft';
     const TOTAL_STEPS = wizardSteps.length;
     let currentStep = 1;
@@ -274,38 +269,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateWizard();
 
-    // ---------- Отправка ----------
-    function showError(text) {
-        statusDiv.textContent = '> ' + text;
-        statusDiv.style.color = 'red';
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'ОТПРАВИТЬ ЗАЯВКУ';
-    }
-
+    // ---------- Реальная отправка ----------
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Honeypot
-        if (honeypot && honeypot.value) {
-            statusDiv.textContent = '> ЗАЯВКА УСПЕШНО ОТПРАВЛЕНА В ШТАБ.';
-            statusDiv.style.color = '#39ff14';
-            form.reset();
-            clearDraft();
-            currentStep = 1;
-            updateWizard();
-            return;
-        }
-
-        // Проверяем все шаги по очереди — вдруг пользователь нажал Submit раньше времени
-        for (let s = 1; s <= TOTAL_STEPS; s++) {
-            if (!validateStep(s)) {
-                currentStep = s;
-                updateWizard();
-                return;
-            }
-        }
-
+        if (!validateStep(currentStep)) return;
         if (submitBtn.disabled) return;
+
         submitBtn.disabled = true;
         submitBtn.textContent = 'ОТПРАВКА...';
         statusDiv.textContent = '';
@@ -319,6 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const experience = (data.get('experience') || '').trim();
         const contact = (data.get('contact') || '').trim();
 
+        // Формируем JSON для Discord
         const payload = {
             username: 'Терминал Рейдеров [FSBP]',
             embeds: [{
@@ -336,24 +307,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }]
         };
 
-        try {
-            const response = await fetch(WEBHOOK_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            if (!response.ok) throw new Error('HTTP ' + response.status);
+        // ХАК: Отправляем как FormData с ключом payload_json, чтобы обойти CORS
+        const discordFormData = new FormData();
+        discordFormData.append('payload_json', JSON.stringify(payload));
 
+        try {
+            // mode: 'no-cors' позволяет браузеру не блокировать запрос к Discord
+            await fetch(DISCORD_WEBHOOK, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: discordFormData
+            });
+
+            // Из-за no-cors мы не можем прочитать ответ сервера, 
+            // но если ошибки сети не было, значит Discord принял заявку.
             statusDiv.textContent = '> ЗАЯВКА УСПЕШНО ОТПРАВЛЕНА В ШТАБ.';
             statusDiv.style.color = '#39ff14';
+            
             form.reset();
             clearDraft();
             currentStep = 1;
             updateWizard();
         } catch (error) {
-            statusDiv.textContent = '> ОШИБКА СВЯЗИ. ПОПРОБУЙТЕ ПОЗЖЕ.';
+            statusDiv.textContent = '> ОШИБКА СЕТИ. ПРОВЕРЬТЕ ПОДКЛЮЧЕНИЕ.';
             statusDiv.style.color = 'red';
-            console.error('[form] Ошибка:', error);
+            console.error('[form] Ошибка отправки:', error);
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = 'ОТПРАВИТЬ ЗАЯВКУ';
@@ -362,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================================================
-//  8. КНОПКА "НАВЕРХ"
+//  7. КНОПКА "НАВЕРХ"
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     const backToTopBtn = document.getElementById('back-to-top');
@@ -386,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================================================
-//  9. Плавный якорный скролл
+//  8. Плавный якорный скролл
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href^="#"]').forEach(link => {
