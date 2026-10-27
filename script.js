@@ -11,6 +11,18 @@ const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1564231664337428501/C8
     document.documentElement.setAttribute('data-theme', saved);
 })();
 
+// --- 0.1 СБРОС СТАРОГО PWA (если он когда-то был установлен) ---
+(function cleanupOldPWA() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister();
+                console.log('[PWA] Старый Service Worker удален');
+            }
+        });
+    }
+})();
+
 // ============================================================
 //  1. PRELOADER
 // ============================================================
@@ -34,16 +46,66 @@ const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1564231664337428501/C8
         setTimeout(hidePreloader, Math.max(0, MIN_VISIBLE - elapsed));
     });
 
-    setTimeout(hidePreloader, 5000);
+    setTimeout(hidePreloader, 5000); // Страховка
 })();
 
 // ============================================================
-//  2. AOS
+//  2. AOS + ПЕЧАТНАЯ МАШИНКА + СЧЕТЧИК КЛАНА
 // ============================================================
 window.addEventListener('load', () => {
     setTimeout(() => {
         AOS.init({ duration: 1000, once: true, offset: 100 });
     }, 2200);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Печатная машинка
+    const textToType = "Зона ждет. Молодой клан. Stalzone.";
+    const typeTarget = document.getElementById('typewriter-text');
+    let typeIndex = 0;
+
+    if (typeTarget) {
+        setTimeout(function typeChar() {
+            if (typeIndex < textToType.length) {
+                typeTarget.textContent += textToType.charAt(typeIndex);
+                typeIndex++;
+                setTimeout(typeChar, 50); // Скорость печати
+            }
+        }, 2500); // Ждем завершения прелоадера
+    }
+
+    // 2. Счетчик существования клана
+    // ⚠️ ВПИШИ СЮДА ДАТУ ОСНОВАНИЯ КЛАНА (Год, Месяц-1, День)
+    // Например: 2024 год, Май (4), 15 число -> new Date(2024, 4, 15)
+    const clanFoundingDate = new Date(2024, 4, 15); 
+
+    const uptimeDisplay = document.getElementById('uptime-display');
+
+    function updateUptime() {
+        if (!uptimeDisplay) return;
+
+        const now = new Date();
+        const diff = now - clanFoundingDate;
+
+        if (diff < 0) {
+            uptimeDisplay.textContent = "Данные повреждены...";
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        const pad = (num) => String(num).padStart(2, '0');
+
+        uptimeDisplay.textContent = `${days} дн. ${pad(hours)} ч. ${pad(minutes)} мин. ${pad(seconds)} сек.`;
+    }
+
+    if (uptimeDisplay) {
+        updateUptime();
+        setInterval(updateUptime, 1000);
+    }
 });
 
 // ============================================================
@@ -104,11 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //  5. KONAMI CODE → режим "ВЫБРОС"
 // ============================================================
 (function initKonami() {
-    const sequence = [
-        'ArrowUp','ArrowUp','ArrowDown','ArrowDown',
-        'ArrowLeft','ArrowRight','ArrowLeft','ArrowRight',
-        'b','a'
-    ];
+    const sequence = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
     let pos = 0;
 
     document.addEventListener('keydown', (e) => {
@@ -171,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const TOTAL_STEPS = wizardSteps.length;
     let currentStep = 1;
 
-    // ---------- Черновик ----------
+    // Черновик
     function saveDraft() {
         const data = new FormData(form);
         const draft = {};
@@ -200,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
         draftTimer = setTimeout(saveDraft, 500);
     });
 
-    // ---------- Управление wizard ----------
+    // Wizard
     function updateWizard() {
         wizardSteps.forEach(s => {
             s.classList.toggle('active', Number(s.dataset.step) === currentStep);
@@ -231,7 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 valid = false;
                 return;
             }
-
             if (field.type === 'number' && val) {
                 const num = parseInt(val, 10);
                 const min = field.hasAttribute('min') ? parseInt(field.min, 10) : -Infinity;
@@ -269,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateWizard();
 
-    // ---------- Реальная отправка ----------
+    // Отправка
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -289,7 +346,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const experience = (data.get('experience') || '').trim();
         const contact = (data.get('contact') || '').trim();
 
-        // Формируем JSON для Discord
         const payload = {
             username: 'Терминал Рейдеров [FSBP]',
             embeds: [{
@@ -307,20 +363,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }]
         };
 
-        // ХАК: Отправляем как FormData с ключом payload_json, чтобы обойти CORS
         const discordFormData = new FormData();
         discordFormData.append('payload_json', JSON.stringify(payload));
 
         try {
-            // mode: 'no-cors' позволяет браузеру не блокировать запрос к Discord
             await fetch(DISCORD_WEBHOOK, {
                 method: 'POST',
                 mode: 'no-cors',
                 body: discordFormData
             });
 
-            // Из-за no-cors мы не можем прочитать ответ сервера, 
-            // но если ошибки сети не было, значит Discord принял заявку.
             statusDiv.textContent = '> ЗАЯВКА УСПЕШНО ОТПРАВЛЕНА В ШТАБ.';
             statusDiv.style.color = '#39ff14';
             
@@ -331,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             statusDiv.textContent = '> ОШИБКА СЕТИ. ПРОВЕРЬТЕ ПОДКЛЮЧЕНИЕ.';
             statusDiv.style.color = 'red';
-            console.error('[form] Ошибка отправки:', error);
+            console.error('[form] Ошибка:', error);
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = 'ОТПРАВИТЬ ЗАЯВКУ';
