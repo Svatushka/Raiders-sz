@@ -1,3 +1,7 @@
+/* ============================================================
+   [FSBP] RAIDERS — style.css
+   ============================================================ */
+
 :root {
     --neon-pink: #ff00ff;
     --neon-blue: #00ffff;
@@ -19,7 +23,8 @@ body {
     overflow-x: hidden;
     min-height: 100vh;
     position: relative;
-    /* CSS-фон вместо частиц: неоновые радиальные свечения + тонкая сетка */
+
+    /* CSS-фон: неоновые радиальные свечения + техно-сетка */
     background-image:
         radial-gradient(circle at 15% 20%, rgba(255, 0, 255, 0.10) 0%, transparent 45%),
         radial-gradient(circle at 85% 75%, rgba(0, 255, 255, 0.10) 0%, transparent 45%),
@@ -30,7 +35,7 @@ body {
     background-repeat: no-repeat, no-repeat, repeat, repeat;
 }
 
-/* --- ШАПКА (ОБЛОЖКА НА ВЕСЬ ЭКРАН) --- */
+/* --- ШАПКА --- */
 .hero {
     position: relative;
     height: 70vh;
@@ -43,8 +48,8 @@ body {
     border-bottom: 2px solid var(--neon-pink);
     box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
     z-index: 1;
-
-    background: linear-gradient(rgba(7, 7, 10, 0.6), rgba(7, 7, 10, 0.8)), url('images/cover.jpg') no-repeat center center;
+    background: linear-gradient(rgba(7, 7, 10, 0.6), rgba(7, 7, 10, 0.8)),
+                url('images/cover.jpg') no-repeat center center;
     background-size: cover;
 }
 
@@ -110,7 +115,9 @@ body {
 }
 
 /* --- ОБЩИЕ СЕКЦИИ --- */
-.clan-info, .roster-section, .application-section {
+.clan-info,
+.roster-section,
+.application-section {
     padding: 60px 20px;
     display: flex;
     flex-direction: column;
@@ -127,6 +134,7 @@ body {
     margin-bottom: 40px;
     text-shadow: 0 0 10px var(--neon-blue);
     font-family: 'Share Tech Mono', monospace;
+    text-align: center;
 }
 
 /* --- БЛОК О НАС --- */
@@ -149,6 +157,7 @@ body {
     border: 3px solid var(--neon-pink);
     box-shadow: 0 0 20px var(--neon-pink);
     object-fit: cover;
+    flex-shrink: 0;
 }
 
 .info-text h2 {
@@ -158,7 +167,7 @@ body {
     margin-bottom: 15px;
 }
 
-/* --- СОСТАВ КЛАНА (ROSTER) --- */
+/* --- СОСТАВ КЛАНА --- */
 .roster-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -214,8 +223,17 @@ body {
     display: inline-block;
 }
 
-.status.online { color: var(--stalker-green); background: rgba(57, 255, 20, 0.1); border: 1px solid var(--stalker-green); }
-.status.offline { color: #666; background: rgba(255, 255, 255, 0.05); border: 1px solid #444; }
+.status.online {
+    color: var(--stalker-green);
+    background: rgba(57, 255, 20, 0.1);
+    border: 1px solid var(--stalker-green);
+}
+
+.status.offline {
+    color: #666;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+}
 
 /* --- ФОРМА --- */
 .terminal-border {
@@ -228,119 +246,224 @@ body {
     position: relative;
 }
 
-.terminal-border::before, .terminal-border::after {
-    content: ''; position: absolute; width: 20px; height: 20px; border: 2px solid var(--neon-pink);
+.terminal-border::before,
+.terminal-border::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--neon-pink);
 }
-.terminal-border::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
-.terminal-border::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+.terminal-border::before {
+    top: -2px; left: -2px;
+    border-right: none; border-bottom: none;
+}
+.terminal-border::after {
+    bottom: -2px; right: -2px;
+    border-left: none; border-top: none;
+}
 
 .terminal-border h2 {
     font-family: 'Share Tech Mono', monospace;
     color: var(--stalker-green);
     text-align: center;
     margin-bottom: 30px;
+    font-size: 1.4rem;
 }
 
-.input-group { margin-bottom: 20px; display: flex; flex-direction: column; }
-.input-group label { font-family: 'Share Tech Mono', monospace; color: var(--neon-blue); margin-bottom: 8px; font-size: 0.9rem; }
-.input-group input, .input-group select, .input-group textarea {
-    background: #111; border: 1px solid #333; padding: 12px; color: #fff;
-    font-family: 'Rajdhani', sans-serif; font-size: 1rem; outline: none; transition: all 0.3s;
+.input-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
-.input-group input:focus, .input-group select:focus, .input-group textarea:focus {
-    border-color: var(--neon-pink); box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+
+.input-group label {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--neon-blue);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+    background: #111;
+    border: 1px solid #333;
+    padding: 12px;
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+}
+
+/* Honeypot — скрытое поле для ботов */
+.honeypot {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
+    width: 1px;
+    height: 1px;
 }
 
 button[type="submit"] {
-    width: 100%; padding: 15px; background: transparent; color: var(--neon-pink);
-    border: 2px solid var(--neon-pink); font-family: 'Rajdhani', sans-serif;
-    font-size: 1.2rem; font-weight: 700; text-transform: uppercase; cursor: pointer;
-    transition: all 0.3s; box-shadow: inset 0 0 10px rgba(255, 0, 255, 0.2);
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    color: var(--neon-pink);
+    border: 2px solid var(--neon-pink);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: inset 0 0 10px rgba(255, 0, 255, 0.2);
+    letter-spacing: 1px;
 }
-button[type="submit"]:hover { background: var(--neon-pink); color: #000; box-shadow: 0 0 20px var(--neon-pink); }
 
-#form-status { margin-top: 20px; text-align: center; font-family: 'Share Tech Mono', monospace; }
-
-/* Подвал */
-footer { text-align: center; padding: 20px; border-top: 1px solid #333; font-family: 'Share Tech Mono', monospace; color: #666; position: relative; z-index: 1; }
-
-/* Адаптивность */
-@media (max-width: 768px) {
-    .info-container { flex-direction: column; text-align: center; }
-    .glitch-text { font-size: 2.5rem; }
-    .hero { height: 50vh; }
+button[type="submit"]:hover:not(:disabled) {
+    background: var(--neon-pink);
+    color: #000;
+    box-shadow: 0 0 20px var(--neon-pink);
 }
-/* --- КНОПКА НАВЕРХ С ГЛИТЧ-ЭФФЕКТОМ --- */
+
+button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#form-status {
+    margin-top: 20px;
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 1.2em;
+}
+
+/* --- ПОДВАЛ --- */
+footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #333;
+    font-family: 'Share Tech Mono', monospace;
+    color: #666;
+    position: relative;
+    z-index: 1;
+}
+
+/* --- КНОПКА "НАВЕРХ" С ГЛИТЧ-ЭФФЕКТОМ --- */
 #back-to-top {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: rgba(7, 7, 10, 0.9);
-  border: 2px solid var(--neon-pink);
-  color: var(--neon-pink);
-  font-size: 1.5rem;
-  cursor: pointer;
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(20px);
-  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-  box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
-  font-family: 'Share Tech Mono', monospace;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(7, 7, 10, 0.9);
+    border: 2px solid var(--neon-pink);
+    color: var(--neon-pink);
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+    font-family: 'Share Tech Mono', monospace;
 }
 
 #back-to-top.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 #back-to-top:hover {
-  background: var(--neon-pink);
-  color: #000;
-  box-shadow: 0 0 25px var(--neon-pink), 0 0 50px var(--neon-pink);
+    background: var(--neon-pink);
+    color: #000;
+    box-shadow: 0 0 25px var(--neon-pink), 0 0 50px var(--neon-pink);
 }
 
-/* Глитч-анимация для стрелки */
 .glitch-arrow {
-  display: inline-block;
-  position: relative;
-  animation: glitch-flicker 2s infinite;
+    display: inline-block;
+    position: relative;
+    animation: glitch-flicker 2s infinite;
 }
 
 @keyframes glitch-flicker {
-  0%, 100% {
-    text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
-    transform: translate(0);
-  }
-  10%, 12% {
-    text-shadow: -2px 0 var(--neon-blue), 2px 0 var(--neon-pink);
-    transform: translate(1px, -1px);
-  }
-  14%, 16% {
-    text-shadow: 2px 0 var(--neon-blue), -2px 0 var(--neon-pink);
-    transform: translate(-1px, 1px);
-  }
-  18%, 80% {
-    text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
-    transform: translate(0);
-  }
-  82% {
-    text-shadow: -3px 0 var(--neon-blue), 3px 0 var(--neon-pink);
-    transform: translate(2px, -2px);
-  }
-  84% {
-    text-shadow: 3px 0 var(--neon-blue), -3px 0 var(--neon-pink);
-    transform: translate(-2px, 2px);
-  }
-  86%, 100% {
-    text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
-    transform: translate(0);
-  }
+    0%, 100% {
+        text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+        transform: translate(0);
+    }
+    10%, 12% {
+        text-shadow: -2px 0 var(--neon-blue), 2px 0 var(--neon-pink);
+        transform: translate(1px, -1px);
+    }
+    14%, 16% {
+        text-shadow: 2px 0 var(--neon-blue), -2px 0 var(--neon-pink);
+        transform: translate(-1px, 1px);
+    }
+    18%, 80% {
+        text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+        transform: translate(0);
+    }
+    82% {
+        text-shadow: -3px 0 var(--neon-blue), 3px 0 var(--neon-pink);
+        transform: translate(2px, -2px);
+    }
+    84% {
+        text-shadow: 3px 0 var(--neon-blue), -3px 0 var(--neon-pink);
+        transform: translate(-2px, 2px);
+    }
+    86%, 100% {
+        text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+        transform: translate(0);
+    }
+}
+
+/* --- АДАПТИВНОСТЬ --- */
+@media (max-width: 768px) {
+    .info-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .glitch-text {
+        font-size: 2.5rem;
+    }
+
+    .hero {
+        height: 50vh;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    /* iOS не будет зумить страницу при фокусе на инпутах */
+    .input-group input,
+    .input-group select,
+    .input-group textarea {
+        font-size: 16px;
+    }
+
+    #back-to-top {
+        width: 44px;
+        height: 44px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 1.2rem;
+    }
 }
