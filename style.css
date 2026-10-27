@@ -452,7 +452,8 @@ body.emission::before {
     height: 100px;
     margin: 0 auto 15px;
     border-radius: 50%;
-    background: url('https://via.placeholder.com/100/000000/00ffff?text=USER') no-repeat center/cover;
+    background: var(--avatar, url('https://via.placeholder.com/100/000000/00ffff?text=USER'))
+                no-repeat center / cover;
     border: 2px solid var(--neon-blue);
     box-shadow: 0 0 10px var(--neon-blue);
 }
