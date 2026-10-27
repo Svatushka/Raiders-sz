@@ -7,7 +7,7 @@ AOS.init({
 
 // --- 2. НАСТРОЙКИ ---
 // ⚠️ ЗАМЕНИ на URL своего Cloudflare Worker (НЕ на вебхук Discord напрямую!)
-const WEBHOOK_URL = 'https://ваш-воркер.имя-аккаунта.workers.dev';
+const WEBHOOK_URL = 'https://raiders-sz.svatushkalive.workers.dev/';
 
 // ============================================================
 //  ОТПРАВКА ФОРМЫ (через Cloudflare Worker → Discord)
