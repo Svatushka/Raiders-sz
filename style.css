@@ -154,9 +154,15 @@ body::after {
 /* ============================================================
    EMISSION (Konami)
    ============================================================ */
-body.emission {
+
+/* Тряска ТОЛЬКО у контента (#page-shake),
+   чтобы position: fixed у баннера/оверлеев работал от вьюпорта */
+body.emission #page-shake {
     animation: emission-shake 0.4s infinite;
+    will-change: transform;
 }
+
+/* Красный оверлей — фиксированный, не мешает fixed-потомкам */
 body.emission::before {
     content: '';
     position: fixed;
@@ -166,6 +172,7 @@ body.emission::before {
     z-index: 9997;
     animation: emission-pulse 0.8s infinite alternate;
 }
+
 @keyframes emission-shake {
     0%, 100% { transform: translate(0, 0); }
     25% { transform: translate(-2px, 1px); }
@@ -177,18 +184,20 @@ body.emission::before {
     to { opacity: 0.35; }
 }
 
+/* Плашка выброса — ВСЕГДА фиксирована к вьюпорту.
+   z-index выше прелоадера, учитывает safe-area (чёлку iPhone). */
 #emission-warning {
     position: fixed;
     top: 0; left: 0; right: 0;
     background: #ff0000;
     color: #fff;
     text-align: center;
-    padding: 14px;
+    padding: calc(14px + env(safe-area-inset-top)) 14px 14px;
     font-family: 'Share Tech Mono', monospace;
     font-weight: bold;
     font-size: 1.1rem;
     letter-spacing: 4px;
-    z-index: 99999;
+    z-index: 100000;
     transform: translateY(-100%);
     transition: transform 0.35s ease;
 }
