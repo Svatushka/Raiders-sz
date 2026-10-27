@@ -270,3 +270,77 @@ footer { text-align: center; padding: 20px; border-top: 1px solid #333; font-fam
     .glitch-text { font-size: 2.5rem; }
     .hero { height: 50vh; }
 }
+/* --- КНОПКА НАВЕРХ С ГЛИТЧ-ЭФФЕКТОМ --- */
+#back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(7, 7, 10, 0.9);
+  border: 2px solid var(--neon-pink);
+  color: var(--neon-pink);
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+  font-family: 'Share Tech Mono', monospace;
+}
+
+#back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+#back-to-top:hover {
+  background: var(--neon-pink);
+  color: #000;
+  box-shadow: 0 0 25px var(--neon-pink), 0 0 50px var(--neon-pink);
+}
+
+/* Глитч-анимация для стрелки */
+.glitch-arrow {
+  display: inline-block;
+  position: relative;
+  animation: glitch-flicker 2s infinite;
+}
+
+@keyframes glitch-flicker {
+  0%, 100% {
+    text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+    transform: translate(0);
+  }
+  10%, 12% {
+    text-shadow: -2px 0 var(--neon-blue), 2px 0 var(--neon-pink);
+    transform: translate(1px, -1px);
+  }
+  14%, 16% {
+    text-shadow: 2px 0 var(--neon-blue), -2px 0 var(--neon-pink);
+    transform: translate(-1px, 1px);
+  }
+  18%, 80% {
+    text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+    transform: translate(0);
+  }
+  82% {
+    text-shadow: -3px 0 var(--neon-blue), 3px 0 var(--neon-pink);
+    transform: translate(2px, -2px);
+  }
+  84% {
+    text-shadow: 3px 0 var(--neon-blue), -3px 0 var(--neon-pink);
+    transform: translate(-2px, 2px);
+  }
+  86%, 100% {
+    text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+    transform: translate(0);
+  }
+}
