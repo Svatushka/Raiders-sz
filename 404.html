@@ -1,16 +1,179 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="cyberpunk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>404 — Сектор потерян | [FSBP]</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Сектор потерян | [FSBP]</title>
+
+    <!-- ВАЖНО: все относительные ссылки резолвятся от корня репозитория.
+         Если переедете на свой домен или в user-site (svatushka.github.io/),
+         замените на <base href="/"> -->
+    <base href="/Raiders-sz/">
+
+    <meta name="robots" content="noindex, follow">
+    <meta name="theme-color" content="#07070a">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="images/okno.png?v=4">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/okno.png?v=4">
+    <link rel="apple-touch-icon" href="images/okno.png?v=4">
+    <link rel="shortcut icon" href="images/okno.png?v=4">
+
+    <!-- Fonts + CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Тема ДО рендера, чтобы не мигало -->
+    <script>
+    (function () {
+        try {
+            var saved = localStorage.getItem('fsbp_theme') || 'cyberpunk';
+            document.documentElement.setAttribute('data-theme', saved);
+        } catch (e) {}
+    })();
+    </script>
+
+    <!-- Доп. стили только для 404 -->
+    <style>
+        .error-wrap {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .error-terminal {
+            text-align: center;
+            max-width: 560px;
+        }
+        .error-code {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: clamp(3.5rem, 14vw, 6rem);
+            letter-spacing: 12px;
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+        .error-title {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--neon-pink);
+            font-size: 1.4rem;
+            letter-spacing: 3px;
+            margin-bottom: 18px;
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+        .error-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .error-hint {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+            opacity: 0.7;
+            margin-bottom: 28px;
+            letter-spacing: 1px;
+        }
+        .error-back {
+            display: inline-block;
+            padding: 12px 28px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--stalker-green);
+            border: 2px solid var(--stalker-green);
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.15);
+        }
+        .error-back:hover {
+            background: var(--stalker-green);
+            color: #000;
+            box-shadow: 0 0 20px var(--stalker-green);
+        }
+        @media (max-width: 768px) {
+            .error-code { letter-spacing: 8px; }
+            .error-title { font-size: 1.1rem; }
+            .error-text { font-size: 1rem; }
+        }
+    </style>
 </head>
-<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;">
-  <div class="terminal-border" style="text-align:center;max-width:500px;">
-    <h2 style="color:var(--neon-pink);font-family:'Share Tech Mono',monospace;">> ОШИБКА 404</h2>
-    <p style="margin:20px 0;font-size:1.1rem;">Сектор не найден. Аномалия поглотила страницу.</p>
-    <a href="/" style="color:var(--stalker-green);font-family:'Share Tech Mono',monospace;text-decoration:none;border-bottom:1px dashed var(--stalker-green);">← Вернуться в штаб</a>
-  </div>
+<body>
+
+    <!-- Кастомный курсор -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- Переключатель тем -->
+    <div class="theme-switcher" role="group" aria-label="Смена темы">
+        <button data-theme="cyberpunk" class="theme-btn active" title="Киберпанк" aria-label="Киберпанк"></button>
+        <button data-theme="stalker" class="theme-btn" title="Сталкер" aria-label="Сталкер"></button>
+        <button data-theme="matrix" class="theme-btn" title="Матрица" aria-label="Матрица"></button>
+    </div>
+
+    <!-- Контент 404 -->
+    <main class="error-wrap">
+        <div class="terminal-border error-terminal">
+            <div class="error-code glitch-text">404</div>
+            <h2 class="error-title">&gt; ОШИБКА 404</h2>
+            <p class="error-text">Сектор не найден. Аномалия поглотила страницу.</p>
+            <p class="error-hint">// проверьте координаты или вернитесь в штаб</p>
+            <!-- Благодаря <base href="/Raiders-sz/"> ссылка всегда ведёт в корень репозитория -->
+            <a href="./" class="error-back">← Вернуться в штаб</a>
+        </div>
+    </main>
+
+    <script>
+    (function () {
+        // --- Переключатель тем ---
+        var buttons = document.querySelectorAll('.theme-btn');
+        var current = document.documentElement.getAttribute('data-theme') || 'cyberpunk';
+
+        buttons.forEach(function (btn) {
+            btn.classList.toggle('active', btn.dataset.theme === current);
+            btn.addEventListener('click', function () {
+                var theme = btn.dataset.theme;
+                document.documentElement.setAttribute('data-theme', theme);
+                try { localStorage.setItem('fsbp_theme', theme); } catch (e) {}
+                buttons.forEach(function (b) {
+                    b.classList.toggle('active', b === btn);
+                });
+            });
+        });
+
+        // --- Кастомный курсор ---
+        if (!window.matchMedia('(pointer: fine)').matches) return;
+        var dot = document.querySelector('.cursor-dot');
+        var ring = document.querySelector('.cursor-ring');
+        if (!dot || !ring) return;
+
+        var mx = window.innerWidth / 2, my = window.innerHeight / 2;
+        var rx = mx, ry = my;
+
+        document.addEventListener('mousemove', function (e) {
+            mx = e.clientX;
+            my = e.clientY;
+        });
+
+        (function animate() {
+            dot.style.transform  = 'translate(' + mx + 'px, ' + my + 'px) translate(-50%, -50%)';
+            rx += (mx - rx) * 0.18;
+            ry += (my - ry) * 0.18;
+            ring.style.transform = 'translate(' + rx + 'px, ' + ry + 'px) translate(-50%, -50%)';
+            requestAnimationFrame(animate);
+        })();
+
+        document.querySelectorAll('a, button, .theme-btn').forEach(function (el) {
+            el.addEventListener('mouseenter', function () { ring.classList.add('hover'); });
+            el.addEventListener('mouseleave', function () { ring.classList.remove('hover'); });
+        });
+    })();
+    </script>
 </body>
 </html>
