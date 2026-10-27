@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Счетчик существования клана
     // ⚠️ ВПИШИ СЮДА ДАТУ ОСНОВАНИЯ КЛАНА (Год, Месяц-1, День)
     // Например: 2024 год, Май (4), 15 число -> new Date(2024, 4, 15)
-    const clanFoundingDate = new Date(2024, 4, 15); 
+    const clanFoundingDate = new Date(2024, 7, 18); 
 
     const uptimeDisplay = document.getElementById('uptime-display');
 
