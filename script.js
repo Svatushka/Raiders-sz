@@ -3,7 +3,7 @@
    ============================================================ */
 
 // ⚠️ ВСТАВЬ ССЫЛКУ НА СВОЙ ВЕБХУК DISCORD НИЖЕ
-const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/ТВОЙ_ID/ТВОЙ_ТОКЕН';
+const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1564231664337428501/C8abZ01ZEyzkOd4oxOva6bLqc6i1UUxDtIqstZH1vxOqKu78ykphM83ZWK48dRw38rMO';
 
 // --- 0. ТЕМА (загружаем ДО всего, чтобы не мигало) ---
 (function initTheme() {
