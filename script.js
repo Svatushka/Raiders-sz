@@ -1,3 +1,7 @@
+/* ============================================================
+   [FSBP] RAIDERS — script.js
+   ============================================================ */
+
 // --- 1. AOS (анимации при скролле) ---
 AOS.init({
     duration: 1000,
@@ -6,8 +10,8 @@ AOS.init({
 });
 
 // --- 2. НАСТРОЙКИ ---
-// ⚠️ ЗАМЕНИ на URL своего Cloudflare Worker (НЕ на вебхук Discord напрямую!)
-const WEBHOOK_URL = 'https://raiders-sz.svatushkalive.workers.dev/';
+// ⚠️ URL твоего Cloudflare Worker (НЕ вебхук Discord напрямую!)
+const WEBHOOK_URL = 'https://ВАШ-ВОРКЕР.workers.dev';
 
 // ============================================================
 //  ОТПРАВКА ФОРМЫ (через Cloudflare Worker → Discord)
@@ -17,16 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = document.getElementById('submit-btn');
     const statusDiv = document.getElementById('form-status');
 
-    // Если формы нет на странице — выходим
     if (!form || !submitBtn || !statusDiv) return;
 
-    // --- Honeypot: скрытое поле против ботов ---
-    // (если добавишь в HTML — раскомментируется ниже)
-    // const honeypot = form.querySelector('input[name="website"]');
-
-    // --- Автосохранение черновика ---
+    const honeypot = form.querySelector('input[name="website"]');
     const DRAFT_KEY = 'fsbp_form_draft';
 
+    // --- Черновик ---
     function saveDraft() {
         const data = new FormData(form);
         const draft = {};
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const draft = JSON.parse(raw);
             Object.keys(draft).forEach(name => {
                 const field = form.querySelector(`[name="${name}"]`);
-                if (field) field.value = draft[name];
+                if (field && name !== 'website') field.value = draft[name];
             });
         } catch (e) {}
     }
@@ -50,24 +50,35 @@ document.addEventListener('DOMContentLoaded', () => {
         try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
     }
 
-    // Восстанавливаем черновик при загрузке
     loadDraft();
 
-    // Сохраняем при вводе (с задержкой)
     let draftTimer;
     form.addEventListener('input', () => {
         clearTimeout(draftTimer);
         draftTimer = setTimeout(saveDraft, 500);
     });
 
+    // --- Показ ошибки ---
+    function showError(text) {
+        statusDiv.textContent = '> ' + text;
+        statusDiv.style.color = 'red';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'ОТПРАВИТЬ ЗАЯВКУ';
+    }
+
     // --- Отправка ---
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Honeypot-проверка (если поле заполнено — это бот, молча игнорируем)
-        // if (honeypot && honeypot.value) return;
+        // Honeypot: если поле заполнено — это бот
+        if (honeypot && honeypot.value) {
+            // Имитируем успех, чтобы бот не догадался
+            statusDiv.textContent = '> ЗАЯВКА УСПЕШНО ОТПРАВЛЕНА В ШТАБ.';
+            statusDiv.style.color = '#39ff14';
+            form.reset();
+            return;
+        }
 
-        // Защита от повторной отправки
         if (submitBtn.disabled) return;
 
         submitBtn.disabled = true;
@@ -76,37 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
         statusDiv.style.color = '';
 
         const data = new FormData(form);
-
-        // Простая валидация перед отправкой
         const nickname = (data.get('nickname') || '').trim();
         const age = parseInt(data.get('age'), 10);
         const contact = (data.get('contact') || '').trim();
+        const timezone = (data.get('timezone') || '').trim();
+        const occupation = data.get('occupation') || '';
+        const experience = (data.get('experience') || '').trim();
 
-        if (!nickname || nickname.length < 2) {
-            statusDiv.textContent = '> ОШИБКА: НИК СЛИШКОМ КОРОТКИЙ.';
-            statusDiv.style.color = 'red';
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'ОТПРАВИТЬ ЗАЯВКУ';
-            return;
-        }
+        if (nickname.length < 2) return showError('НИК СЛИШКОМ КОРОТКИЙ.');
+        if (!age || age < 14 || age > 99) return showError('ВОЗРАСТ ДОЛЖЕН БЫТЬ ОТ 14 ДО 99.');
+        if (!timezone) return showError('УКАЖИТЕ ВРЕМЯ ОТ МСК.');
+        if (!occupation) return showError('ВЫБЕРИТЕ РОД ЗАНЯТИЙ.');
+        if (!experience) return showError('ЗАПОЛНИТЕ ОПЫТ В КЛАНАХ.');
+        if (!contact) return showError('УКАЖИТЕ КОНТАКТ ДЛЯ СВЯЗИ.');
 
-        if (!age || age < 14 || age > 99) {
-            statusDiv.textContent = '> ОШИБКА: ВОЗРАСТ ДОЛЖЕН БЫТЬ ОТ 14 ДО 99.';
-            statusDiv.style.color = 'red';
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'ОТПРАВИТЬ ЗАЯВКУ';
-            return;
-        }
-
-        if (!contact) {
-            statusDiv.textContent = '> ОШИБКА: УКАЖИТЕ КОНТАКТ ДЛЯ СВЯЗИ.';
-            statusDiv.style.color = 'red';
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'ОТПРАВИТЬ ЗАЯВКУ';
-            return;
-        }
-
-        // Формируем payload для Discord (отправит Worker)
         const payload = {
             username: "Терминал Рейдеров [FSBP]",
             embeds: [{
@@ -115,9 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 fields: [
                     { name: "1. Ник", value: nickname, inline: true },
                     { name: "2. Возраст", value: String(age), inline: true },
-                    { name: "3. Время от МСК", value: data.get('timezone') || '—', inline: true },
-                    { name: "4. Занятость", value: data.get('occupation') || '—', inline: true },
-                    { name: "5. Опыт в кланах", value: data.get('experience') || '—', inline: false },
+                    { name: "3. Время от МСК", value: timezone, inline: true },
+                    { name: "4. Занятость", value: occupation, inline: true },
+                    { name: "5. Опыт в кланах", value: experience, inline: false },
                     { name: "6. Контакты", value: contact, inline: false }
                 ],
                 timestamp: new Date().toISOString()
@@ -131,9 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(payload)
             });
 
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
+            if (!response.ok) throw new Error('HTTP ' + response.status);
 
             statusDiv.textContent = '> ЗАЯВКА УСПЕШНО ОТПРАВЛЕНА В ШТАБ.';
             statusDiv.style.color = '#39ff14';
@@ -142,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             statusDiv.textContent = '> ОШИБКА СВЯЗИ. ПОПРОБУЙТЕ ПОЗЖЕ.';
             statusDiv.style.color = 'red';
-            console.error('[form] Ошибка отправки:', error);
+            console.error('[form] Ошибка:', error);
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = 'ОТПРАВИТЬ ЗАЯВКУ';
@@ -151,43 +143,37 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================================================
-//  КНОПКА "НАВЕРХ" С ГЛИТЧ-ЭФФЕКТОМ
+//  КНОПКА "НАВЕРХ"
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     const backToTopBtn = document.getElementById('back-to-top');
     if (!backToTopBtn) return;
 
-    // Показываем кнопку после 300px прокрутки
-    let scrollTicking = false;
+    let ticking = false;
 
-    function updateButtonVisibility() {
+    function updateVisibility() {
         if (window.scrollY > 300) {
             backToTopBtn.classList.add('show');
         } else {
             backToTopBtn.classList.remove('show');
         }
-        scrollTicking = false;
+        ticking = false;
     }
 
     window.addEventListener('scroll', () => {
-        if (!scrollTicking) {
-            window.requestAnimationFrame(updateButtonVisibility);
-            scrollTicking = true;
+        if (!ticking) {
+            window.requestAnimationFrame(updateVisibility);
+            ticking = true;
         }
     }, { passive: true });
 
-    // Клик — плавный скролл наверх
     backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 });
 
 // ============================================================
-//  плавный скролл для внутренних якорных ссылок
-//  (если на сайте появятся <a href="#roster"> и т.п.)
+//  Плавный скролл по якорям (#roster, #apply и т.д.)
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href^="#"]').forEach(link => {
