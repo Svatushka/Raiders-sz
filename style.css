@@ -1,33 +1,54 @@
 /* ============================================================
-   [FSBP] RAIDERS — style.css
+   [FSBP] RAIDERS — style.css  
    ============================================================ */
 
 /* --- ТЕМЫ --- */
 :root {
-    --neon-pink: #ff00ff;
-    --neon-blue: #00ffff;
-    --bg-dark: #07070a;
-    --text-color: #e0e0e0;
-    --stalker-green: #39ff14;
+    /* Основные акценты */
+    --neon-pink: #b3006b;
+    --neon-pink-rgb: 179, 0, 107;
+
+    --neon-blue: #0080a0;
+    --neon-blue-rgb: 0, 128, 160;
+
+    --stalker-green: #20a020;
+    --stalker-green-rgb: 32, 160, 32;
+
+    --bg-dark: #050508;
+    --text-color: #d8d8d8;
+
     --accent-1: var(--neon-pink);
     --accent-2: var(--neon-blue);
     --discord: #5865f2;
+    --discord-rgb: 88, 101, 242;
 }
 
 [data-theme="stalker"] {
-    --neon-pink: #ff8c00;
-    --neon-blue: #39ff14;
-    --stalker-green: #39ff14;
-    --bg-dark: #0a0805;
-    --text-color: #d4c8a8;
+    --neon-pink: #b85f00;
+    --neon-pink-rgb: 184, 95, 0;
+
+    --neon-blue: #20a020;
+    --neon-blue-rgb: 32, 160, 32;
+
+    --stalker-green: #20a020;
+    --stalker-green-rgb: 32, 160, 32;
+
+    --bg-dark: #070503;
+    --text-color: #c4b894;
 }
 
 [data-theme="matrix"] {
-    --neon-pink: #00ff41;
-    --neon-blue: #00aa33;
-    --stalker-green: #00ff41;
+    --neon-pink: #00b82f;
+    --neon-pink-rgb: 0, 184, 47;
+
+    --neon-blue: #008022;
+    --neon-blue-rgb: 0, 128, 34;
+
+    --stalker-green: #00b82f;
+    --stalker-green-rgb: 0, 184, 47;
+
     --bg-dark: #000000;
-    --text-color: #b8ffb8;
+    --text-color: #9fd89f;
 }
 
 * {
@@ -46,10 +67,10 @@ body {
     min-height: 100vh;
     position: relative;
     background-image:
-        radial-gradient(circle at 15% 20%, rgba(255, 0, 255, 0.10) 0%, transparent 45%),
-        radial-gradient(circle at 85% 75%, rgba(0, 255, 255, 0.10) 0%, transparent 45%),
-        linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+        radial-gradient(circle at 15% 20%, rgba(var(--neon-pink-rgb), 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(var(--neon-blue-rgb), 0.07) 0%, transparent 45%),
+        linear-gradient(rgba(var(--neon-blue-rgb), 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--neon-blue-rgb), 0.025) 1px, transparent 1px);
     background-size: auto, auto, 40px 40px, 40px 40px;
     background-attachment: fixed;
     background-repeat: no-repeat, no-repeat, repeat, repeat;
@@ -58,9 +79,9 @@ body {
 [data-theme="matrix"] body,
 body[data-theme="matrix"] {
     background-image:
-        radial-gradient(circle at 50% 50%, rgba(0, 255, 65, 0.08), transparent 60%),
-        linear-gradient(rgba(0, 255, 65, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 65, 0.05) 1px, transparent 1px);
+        radial-gradient(circle at 50% 50%, rgba(var(--stalker-green-rgb), 0.06), transparent 60%),
+        linear-gradient(rgba(var(--stalker-green-rgb), 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--stalker-green-rgb), 0.04) 1px, transparent 1px);
 }
 
 /* --- SCANLINES + CRT --- */
@@ -74,17 +95,17 @@ body::after {
         to bottom,
         rgba(0, 0, 0, 0) 0,
         rgba(0, 0, 0, 0) 2px,
-        rgba(0, 0, 0, 0.14) 3px,
+        rgba(0, 0, 0, 0.18) 3px,
         rgba(0, 0, 0, 0) 4px
     );
-    opacity: 0.55;
+    opacity: 0.5;
     animation: crt-flicker 8s infinite;
 }
 
 @keyframes crt-flicker {
-    0%, 100% { opacity: 0.55; }
-    50% { opacity: 0.65; }
-    95% { opacity: 0.45; }
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.6; }
+    95% { opacity: 0.4; }
 }
 
 .hidden { display: none !important; }
@@ -127,7 +148,7 @@ body::after {
     animation-delay: 1.7s;
     color: var(--stalker-green);
     font-weight: bold;
-    text-shadow: 0 0 10px var(--stalker-green);
+    text-shadow: 0 0 8px rgba(var(--stalker-green-rgb), 0.8);
 }
 @keyframes preloader-line-in {
     from { opacity: 0; transform: translateX(-10px); }
@@ -135,7 +156,7 @@ body::after {
 }
 .preloader-bar {
     height: 4px;
-    background: #222;
+    background: #1a1a1a;
     border-radius: 2px;
     overflow: hidden;
 }
@@ -144,7 +165,7 @@ body::after {
     width: 0;
     background: linear-gradient(90deg, var(--neon-blue), var(--stalker-green));
     animation: preloader-fill 1.9s ease-out forwards;
-    box-shadow: 0 0 10px var(--stalker-green);
+    box-shadow: 0 0 8px rgba(var(--stalker-green-rgb), 0.6);
 }
 @keyframes preloader-fill {
     to { width: 100%; }
@@ -162,7 +183,7 @@ body.emission::before {
     content: '';
     position: fixed;
     inset: 0;
-    background: rgba(255, 0, 0, 0.18);
+    background: rgba(140, 0, 0, 0.18);
     pointer-events: none;
     z-index: 9997;
     animation: emission-pulse 0.8s infinite alternate;
@@ -175,14 +196,14 @@ body.emission::before {
     75% { transform: translate(2px, 2px); }
 }
 @keyframes emission-pulse {
-    from { opacity: 0.1; }
-    to { opacity: 0.35; }
+    from { opacity: 0.08; }
+    to { opacity: 0.3; }
 }
 
 #emission-warning {
     position: fixed;
     top: 0; left: 0; right: 0;
-    background: #ff0000;
+    background: #990000;
     color: #fff;
     text-align: center;
     padding: calc(14px + env(safe-area-inset-top)) 14px 14px;
@@ -199,8 +220,8 @@ body.emission::before {
     animation: warn-blink 0.5s infinite alternate;
 }
 @keyframes warn-blink {
-    from { background: #ff0000; }
-    to   { background: #7a0000; }
+    from { background: #990000; }
+    to   { background: #4a0000; }
 }
 
 /* ============================================================
@@ -226,20 +247,20 @@ body.emission::before {
         width: 8px;
         height: 8px;
         background: var(--accent-1);
-        box-shadow: 0 0 10px var(--accent-1);
+        box-shadow: 0 0 8px rgba(var(--neon-pink-rgb), 0.7);
     }
     .cursor-ring {
         width: 32px;
         height: 32px;
         border: 2px solid var(--accent-2);
-        box-shadow: 0 0 12px var(--accent-2);
+        box-shadow: 0 0 10px rgba(var(--neon-blue-rgb), 0.6);
         transition: width 0.2s, height 0.2s, border-color 0.2s;
     }
     .cursor-ring.hover {
         width: 50px;
         height: 50px;
         border-color: var(--accent-1);
-        box-shadow: 0 0 18px var(--accent-1);
+        box-shadow: 0 0 14px rgba(var(--neon-pink-rgb), 0.7);
     }
 }
 
@@ -258,8 +279,8 @@ body.emission::before {
     display: flex;
     gap: 8px;
     padding: 8px 12px;
-    background: rgba(0, 0, 0, 0.75);
-    border: 1px solid #333;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #2a2a2a;
     border-radius: 30px;
     z-index: 1000;
     backdrop-filter: blur(10px);
@@ -268,23 +289,23 @@ body.emission::before {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    border: 2px solid #333;
+    border: 2px solid #2a2a2a;
     padding: 0;
     transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 .theme-btn[data-theme="cyberpunk"] {
-    background: linear-gradient(135deg, #ff00ff 50%, #00ffff 50%);
+    background: linear-gradient(135deg, #b3006b 50%, #0080a0 50%);
 }
 .theme-btn[data-theme="stalker"] {
-    background: linear-gradient(135deg, #ff8c00 50%, #39ff14 50%);
+    background: linear-gradient(135deg, #b85f00 50%, #20a020 50%);
 }
 .theme-btn[data-theme="matrix"] {
-    background: linear-gradient(135deg, #00ff41 50%, #003300 50%);
+    background: linear-gradient(135deg, #00b82f 50%, #003310 50%);
 }
-.theme-btn:hover { transform: scale(1.2); border-color: #fff; }
+.theme-btn:hover { transform: scale(1.2); border-color: #ccc; }
 .theme-btn.active {
-    border-color: #fff;
-    box-shadow: 0 0 12px #fff;
+    border-color: #ccc;
+    box-shadow: 0 0 10px rgba(200, 200, 200, 0.5);
 }
 
 /* ============================================================
@@ -300,9 +321,9 @@ body.emission::before {
     text-align: center;
     overflow: hidden;
     border-bottom: 2px solid var(--neon-pink);
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    box-shadow: 0 0 18px rgba(var(--neon-pink-rgb), 0.4);
     z-index: 1;
-    background: linear-gradient(rgba(7, 7, 10, 0.6), rgba(7, 7, 10, 0.8)),
+    background: linear-gradient(rgba(5, 5, 8, 0.7), rgba(5, 5, 8, 0.85)),
                 url('images/cover.jpg') no-repeat center center;
     background-size: cover;
 }
@@ -315,7 +336,7 @@ body.emission::before {
 
 .glitch-text {
     font-size: 4rem;
-    color: #fff;
+    color: #e8e8e8;
     text-transform: uppercase;
     letter-spacing: 5px;
     position: relative;
@@ -324,8 +345,9 @@ body.emission::before {
 
 @keyframes neon-flicker {
     0%, 100% {
-        text-shadow: 0 0 5px #fff, 0 0 10px #fff,
-                     0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
+        text-shadow: 0 0 4px #e8e8e8, 0 0 8px #e8e8e8,
+                     0 0 16px rgba(var(--neon-pink-rgb), 0.8),
+                     0 0 30px rgba(var(--neon-pink-rgb), 0.5);
         transform: translate(0, 0);
     }
     10%, 12% {
@@ -337,8 +359,9 @@ body.emission::before {
         transform: translate(-1px, 1px);
     }
     18%, 80% {
-        text-shadow: 0 0 5px #fff, 0 0 10px #fff,
-                     0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
+        text-shadow: 0 0 4px #e8e8e8, 0 0 8px #e8e8e8,
+                     0 0 16px rgba(var(--neon-pink-rgb), 0.8),
+                     0 0 30px rgba(var(--neon-pink-rgb), 0.5);
         transform: translate(0, 0);
     }
     82% {
@@ -350,8 +373,9 @@ body.emission::before {
         transform: translate(-2px, 2px);
     }
     86%, 100% {
-        text-shadow: 0 0 5px #fff, 0 0 10px #fff,
-                     0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
+        text-shadow: 0 0 4px #e8e8e8, 0 0 8px #e8e8e8,
+                     0 0 16px rgba(var(--neon-pink-rgb), 0.8),
+                     0 0 30px rgba(var(--neon-pink-rgb), 0.5);
         transform: translate(0, 0);
     }
 }
@@ -361,7 +385,7 @@ body.emission::before {
     color: var(--neon-blue);
     font-size: 1.2rem;
     margin-top: 15px;
-    text-shadow: 0 0 10px var(--neon-blue);
+    text-shadow: 0 0 8px rgba(var(--neon-blue-rgb), 0.7);
 }
 
 /* ============================================================
@@ -384,7 +408,7 @@ body.emission::before {
     text-transform: uppercase;
     letter-spacing: 3px;
     margin-bottom: 40px;
-    text-shadow: 0 0 10px var(--neon-blue);
+    text-shadow: 0 0 10px rgba(var(--neon-blue-rgb), 0.6);
     font-family: 'Share Tech Mono', monospace;
     text-align: center;
 }
@@ -394,9 +418,10 @@ body.emission::before {
     display: flex;
     align-items: center;
     max-width: 900px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     border: 1px solid var(--neon-blue);
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3), inset 0 0 15px rgba(0, 255, 255, 0.1);
+    box-shadow: 0 0 12px rgba(var(--neon-blue-rgb), 0.25),
+                inset 0 0 12px rgba(var(--neon-blue-rgb), 0.08);
     padding: 30px;
     border-radius: 10px;
     gap: 30px;
@@ -406,14 +431,14 @@ body.emission::before {
     height: 200px;
     border-radius: 50%;
     border: 3px solid var(--neon-pink);
-    box-shadow: 0 0 20px var(--neon-pink);
+    box-shadow: 0 0 15px rgba(var(--neon-pink-rgb), 0.5);
     object-fit: cover;
     flex-shrink: 0;
 }
 .info-text h2 {
     font-size: 2rem;
     color: var(--neon-pink);
-    text-shadow: 0 0 10px var(--neon-pink);
+    text-shadow: 0 0 10px rgba(var(--neon-pink-rgb), 0.6);
     margin-bottom: 15px;
 }
 
@@ -426,8 +451,8 @@ body.emission::before {
     max-width: 1100px;
 }
 .roster-card {
-    background: rgba(10, 10, 15, 0.9);
-    border: 1px solid #333;
+    background: rgba(8, 8, 12, 0.92);
+    border: 1px solid #2a2a2a;
     padding: 20px;
     text-align: center;
     transition: all 0.3s ease;
@@ -436,7 +461,7 @@ body.emission::before {
 }
 .roster-card:hover {
     border-color: var(--neon-pink);
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+    box-shadow: 0 0 16px rgba(var(--neon-pink-rgb), 0.35);
     transform: translateY(-5px);
 }
 .member-avatar {
@@ -444,12 +469,12 @@ body.emission::before {
     height: 100px;
     margin: 0 auto 15px;
     border-radius: 50%;
-    background: url('https://via.placeholder.com/100/000000/00ffff?text=USER') no-repeat center/cover;
+    background: url('https://via.placeholder.com/100/000000/0080a0?text=USER') no-repeat center/cover;
     border: 2px solid var(--neon-blue);
-    box-shadow: 0 0 10px var(--neon-blue);
+    box-shadow: 0 0 8px rgba(var(--neon-blue-rgb), 0.5);
 }
 .roster-card h3 {
-    color: #fff;
+    color: #e8e8e8;
     font-size: 1.4rem;
     margin-bottom: 5px;
 }
@@ -468,13 +493,13 @@ body.emission::before {
 }
 .status.online {
     color: var(--stalker-green);
-    background: rgba(57, 255, 20, 0.1);
+    background: rgba(var(--stalker-green-rgb), 0.1);
     border: 1px solid var(--stalker-green);
 }
 .status.offline {
-    color: #666;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid #444;
+    color: #5a5a5a;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid #3a3a3a;
 }
 
 /* --- DISCORD CTA --- */
@@ -482,11 +507,11 @@ body.emission::before {
     max-width: 600px;
     width: 100%;
     padding: 32px 24px;
-    background: rgba(88, 101, 242, 0.12);
+    background: rgba(var(--discord-rgb), 0.1);
     border: 2px solid var(--discord);
     border-radius: 8px;
     text-align: center;
-    box-shadow: 0 0 20px rgba(88, 101, 242, 0.3);
+    box-shadow: 0 0 18px rgba(var(--discord-rgb), 0.25);
 }
 .discord-cta-text {
     color: var(--text-color);
@@ -517,8 +542,8 @@ body.emission::before {
 }
 .discord-btn svg { width: 24px; height: 24px; }
 @keyframes discord-pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(88, 101, 242, 0.5); }
-    50%      { box-shadow: 0 0 30px rgba(88, 101, 242, 0.9); }
+    0%, 100% { box-shadow: 0 0 16px rgba(var(--discord-rgb), 0.4); }
+    50%      { box-shadow: 0 0 24px rgba(var(--discord-rgb), 0.7); }
 }
 
 /* ============================================================
@@ -527,9 +552,9 @@ body.emission::before {
 .terminal-border {
     width: 100%;
     max-width: 600px;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.92);
     border: 2px solid var(--stalker-green);
-    box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+    box-shadow: 0 0 12px rgba(var(--stalker-green-rgb), 0.35);
     padding: 30px;
     position: relative;
 }
@@ -556,9 +581,9 @@ body.emission::before {
 footer {
     text-align: center;
     padding: 20px;
-    border-top: 1px solid #333;
+    border-top: 1px solid #2a2a2a;
     font-family: 'Share Tech Mono', monospace;
-    color: #666;
+    color: #5a5a5a;
     position: relative;
     z-index: 1;
 }
@@ -579,7 +604,7 @@ footer {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: rgba(7, 7, 10, 0.9);
+    background: rgba(5, 5, 8, 0.92);
     border: 2px solid var(--neon-pink);
     color: var(--neon-pink);
     font-size: 1.5rem;
@@ -591,7 +616,7 @@ footer {
     visibility: hidden;
     transform: translateY(20px);
     transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
-    box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+    box-shadow: 0 0 8px rgba(var(--neon-pink-rgb), 0.3);
     font-family: 'Share Tech Mono', monospace;
 }
 #back-to-top.show {
@@ -602,7 +627,8 @@ footer {
 #back-to-top:hover {
     background: var(--neon-pink);
     color: #000;
-    box-shadow: 0 0 25px var(--neon-pink), 0 0 50px var(--neon-pink);
+    box-shadow: 0 0 18px rgba(var(--neon-pink-rgb), 0.8),
+                0 0 36px rgba(var(--neon-pink-rgb), 0.5);
 }
 .glitch-arrow {
     display: inline-block;
@@ -610,7 +636,7 @@ footer {
 }
 @keyframes glitch-flicker {
     0%, 100% {
-        text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+        text-shadow: 0 0 4px var(--neon-pink), 0 0 8px var(--neon-pink);
         transform: translate(0);
     }
     10%, 12% {
@@ -622,7 +648,7 @@ footer {
         transform: translate(-1px, 1px);
     }
     18%, 80% {
-        text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+        text-shadow: 0 0 4px var(--neon-pink), 0 0 8px var(--neon-pink);
         transform: translate(0);
     }
     82% {
@@ -634,7 +660,7 @@ footer {
         transform: translate(-2px, 2px);
     }
     86%, 100% {
-        text-shadow: 0 0 5px var(--neon-pink), 0 0 10px var(--neon-pink);
+        text-shadow: 0 0 4px var(--neon-pink), 0 0 8px var(--neon-pink);
         transform: translate(0);
     }
 }
@@ -649,8 +675,8 @@ footer {
     display: flex;
     gap: 4px;
     padding: 8px 10px;
-    background: rgba(0, 0, 0, 0.75);
-    border: 1px solid #333;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #2a2a2a;
     border-radius: 30px;
     z-index: 1000;
     backdrop-filter: blur(10px);
@@ -668,13 +694,13 @@ footer {
 }
 .main-nav a:hover {
     color: var(--neon-blue);
-    background: rgba(0, 255, 255, 0.08);
+    background: rgba(var(--neon-blue-rgb), 0.08);
 }
 .main-nav a.active {
     color: var(--stalker-green);
-    background: rgba(57, 255, 20, 0.1);
+    background: rgba(var(--stalker-green-rgb), 0.1);
     border-color: var(--stalker-green);
-    box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+    box-shadow: 0 0 8px rgba(var(--stalker-green-rgb), 0.3);
 }
 
 /* ============================================================
@@ -684,7 +710,7 @@ footer {
     padding: 130px 20px 50px;
     text-align: center;
     border-bottom: 2px solid var(--neon-pink);
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+    box-shadow: 0 0 18px rgba(var(--neon-pink-rgb), 0.4);
     position: relative;
     z-index: 1;
     margin-bottom: 40px;
@@ -711,8 +737,8 @@ footer {
 .quick-link-card {
     display: block;
     padding: 30px 24px;
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid #333;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid #2a2a2a;
     text-decoration: none;
     color: var(--text-color);
     text-align: center;
@@ -725,21 +751,21 @@ footer {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, transparent, rgba(0, 255, 255, 0.06));
+    background: linear-gradient(135deg, transparent, rgba(var(--neon-blue-rgb), 0.05));
     opacity: 0;
     transition: opacity 0.3s;
     pointer-events: none;
 }
 .quick-link-card:hover {
     border-color: var(--neon-blue);
-    box-shadow: 0 0 25px rgba(0, 255, 255, 0.35);
+    box-shadow: 0 0 18px rgba(var(--neon-blue-rgb), 0.3);
     transform: translateY(-4px);
 }
 .quick-link-card:hover::before { opacity: 1; }
 .quick-link-icon {
     font-size: 2.5rem;
     color: var(--neon-blue);
-    text-shadow: 0 0 15px var(--neon-blue);
+    text-shadow: 0 0 12px rgba(var(--neon-blue-rgb), 0.6);
     margin-bottom: 12px;
     line-height: 1;
 }
@@ -749,11 +775,11 @@ footer {
     font-size: 1.15rem;
     letter-spacing: 2px;
     margin-bottom: 8px;
-    text-shadow: 0 0 8px var(--neon-pink);
+    text-shadow: 0 0 8px rgba(var(--neon-pink-rgb), 0.5);
 }
 .quick-link-card p {
     font-size: 0.9rem;
-    opacity: 0.75;
+    opacity: 0.7;
     font-family: 'Share Tech Mono', monospace;
     line-height: 1.5;
 }
@@ -788,7 +814,7 @@ footer {
 }
 .gallery-item {
     aspect-ratio: 16 / 9;
-    border: 1px solid #333;
+    border: 1px solid #2a2a2a;
     overflow: hidden;
     border-radius: 4px;
     transition: all 0.3s;
@@ -808,31 +834,31 @@ footer {
     justify-content: center;
     background:
         repeating-linear-gradient(45deg, transparent, transparent 12px,
-            rgba(0, 255, 255, 0.03) 12px, rgba(0, 255, 255, 0.03) 24px),
-        linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
-    border: 1px dashed rgba(0, 255, 255, 0.4);
+            rgba(var(--neon-blue-rgb), 0.03) 12px, rgba(var(--neon-blue-rgb), 0.03) 24px),
+        linear-gradient(135deg, rgba(var(--neon-blue-rgb), 0.04), rgba(var(--neon-pink-rgb), 0.04));
+    border: 1px dashed rgba(var(--neon-blue-rgb), 0.35);
 }
 .gallery-item.placeholder::after {
     content: '+';
     position: absolute;
     top: 8px;
     right: 10px;
-    color: rgba(0, 255, 255, 0.5);
+    color: rgba(var(--neon-blue-rgb), 0.5);
     font-family: 'Share Tech Mono', monospace;
     font-size: 1rem;
 }
 .gallery-item.placeholder span {
     font-family: 'Share Tech Mono', monospace;
-    color: rgba(0, 255, 255, 0.65);
+    color: rgba(var(--neon-blue-rgb), 0.7);
     font-size: 0.8rem;
     letter-spacing: 2px;
     text-align: center;
     padding: 5px;
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    text-shadow: 0 0 8px rgba(var(--neon-blue-rgb), 0.4);
 }
 .gallery-item:hover {
     border-color: var(--neon-pink);
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.35);
+    box-shadow: 0 0 16px rgba(var(--neon-pink-rgb), 0.35);
     transform: translateY(-3px);
 }
 .gallery-note {
@@ -871,14 +897,14 @@ footer {
     bottom: 8px;
     width: 2px;
     background: linear-gradient(to bottom, var(--neon-pink), var(--neon-blue));
-    box-shadow: 0 0 10px var(--neon-pink);
+    box-shadow: 0 0 8px rgba(var(--neon-pink-rgb), 0.5);
 }
 .timeline-item {
     position: relative;
     margin-bottom: 25px;
     padding: 18px 22px;
-    background: rgba(0, 0, 0, 0.75);
-    border: 1px solid #333;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #2a2a2a;
     border-radius: 4px;
     transition: all 0.3s;
 }
@@ -891,11 +917,12 @@ footer {
     height: 14px;
     border-radius: 50%;
     background: var(--stalker-green);
-    box-shadow: 0 0 12px var(--stalker-green), 0 0 24px var(--stalker-green);
+    box-shadow: 0 0 10px rgba(var(--stalker-green-rgb), 0.9),
+                0 0 20px rgba(var(--stalker-green-rgb), 0.5);
 }
 .timeline-item:hover {
     border-color: var(--neon-blue);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 16px rgba(var(--neon-blue-rgb), 0.2);
     transform: translateX(4px);
 }
 .timeline-date {
@@ -904,7 +931,7 @@ footer {
     font-size: 0.82rem;
     margin-bottom: 6px;
     letter-spacing: 1.5px;
-    text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+    text-shadow: 0 0 6px rgba(var(--neon-blue-rgb), 0.5);
 }
 .timeline-item h3 {
     color: var(--neon-pink);
@@ -912,7 +939,7 @@ footer {
     margin-bottom: 8px;
     font-family: 'Share Tech Mono', monospace;
     letter-spacing: 1px;
-    text-shadow: 0 0 8px rgba(255, 0, 255, 0.5);
+    text-shadow: 0 0 8px rgba(var(--neon-pink-rgb), 0.5);
 }
 .timeline-item p {
     color: var(--text-color);
