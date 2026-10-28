@@ -5,21 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 — Сектор потерян | [FSBP]</title>
 
+    
     <base href="/Raiders-sz/">
 
     <meta name="robots" content="noindex, follow">
-    <meta name="theme-color" content="#07070a">
+    <meta name="theme-color" content="#050508">
 
+    <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="images/okno.png?v=4">
     <link rel="icon" type="image/png" sizes="16x16" href="images/okno.png?v=4">
     <link rel="apple-touch-icon" href="images/okno.png?v=4">
     <link rel="shortcut icon" href="images/okno.png?v=4">
 
+    <!-- Шрифты и CSS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
+    <!-- Загрузка темы ДО рендера, чтобы не мигало -->
     <script>
     (function () {
         try {
@@ -29,6 +33,7 @@
     })();
     </script>
 
+    <!-- Локальные стили для страницы 404 -->
     <style>
         .error-wrap {
             min-height: 100vh;
@@ -42,6 +47,7 @@
         .error-terminal {
             text-align: center;
             max-width: 560px;
+            width: 100%;
         }
         .error-code {
             font-family: 'Share Tech Mono', monospace;
@@ -62,6 +68,7 @@
             font-size: 1.1rem;
             line-height: 1.6;
             margin-bottom: 10px;
+            color: var(--text-color);
         }
         .error-hint {
             font-family: 'Share Tech Mono', monospace;
@@ -83,12 +90,12 @@
             border: 2px solid var(--stalker-green);
             text-decoration: none;
             transition: all 0.3s;
-            box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.15);
+            box-shadow: inset 0 0 10px rgba(var(--stalker-green-rgb), 0.12);
         }
         .error-back:hover {
             background: var(--stalker-green);
             color: #000;
-            box-shadow: 0 0 20px var(--stalker-green);
+            box-shadow: 0 0 16px rgba(var(--stalker-green-rgb), 0.7);
         }
         @media (max-width: 768px) {
             .error-code { letter-spacing: 8px; }
@@ -100,6 +107,7 @@
 <body>
 
     <div id="scroll-progress"></div>
+
     <div class="cursor-dot"></div>
     <div class="cursor-ring"></div>
 
@@ -116,6 +124,7 @@
     </div>
 
     <main class="error-wrap">
+        <!-- Класс glitch-text берет стили из основного style.css -->
         <div class="terminal-border error-terminal">
             <div class="error-code glitch-text">404</div>
             <h2 class="error-title">&gt; ОШИБКА 404</h2>
@@ -125,49 +134,7 @@
         </div>
     </main>
 
-    <script>
-    (function () {
-        var buttons = document.querySelectorAll('.theme-btn');
-        var current = document.documentElement.getAttribute('data-theme') || 'cyberpunk';
-
-        buttons.forEach(function (btn) {
-            btn.classList.toggle('active', btn.dataset.theme === current);
-            btn.addEventListener('click', function () {
-                var theme = btn.dataset.theme;
-                document.documentElement.setAttribute('data-theme', theme);
-                try { localStorage.setItem('fsbp_theme', theme); } catch (e) {}
-                buttons.forEach(function (b) {
-                    b.classList.toggle('active', b === btn);
-                });
-            });
-        });
-
-        if (!window.matchMedia('(pointer: fine)').matches) return;
-        var dot = document.querySelector('.cursor-dot');
-        var ring = document.querySelector('.cursor-ring');
-        if (!dot || !ring) return;
-
-        var mx = window.innerWidth / 2, my = window.innerHeight / 2;
-        var rx = mx, ry = my;
-
-        document.addEventListener('mousemove', function (e) {
-            mx = e.clientX;
-            my = e.clientY;
-        });
-
-        (function animate() {
-            dot.style.transform  = 'translate(' + mx + 'px, ' + my + 'px) translate(-50%, -50%)';
-            rx += (mx - rx) * 0.18;
-            ry += (my - ry) * 0.18;
-            ring.style.transform = 'translate(' + rx + 'px, ' + ry + 'px) translate(-50%, -50%)';
-            requestAnimationFrame(animate);
-        })();
-
-        document.querySelectorAll('a, button, .theme-btn').forEach(function (el) {
-            el.addEventListener('mouseenter', function () { ring.classList.add('hover'); });
-            el.addEventListener('mouseleave', function () { ring.classList.remove('hover'); });
-        });
-    })();
-    </script>
+    <!-- Подключаем общий скрипт для работы курсора, тем и прогресс-бара -->
+    <script src="script.js"></script>
 </body>
 </html>
