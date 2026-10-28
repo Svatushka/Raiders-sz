@@ -87,7 +87,6 @@ body::after {
     95% { opacity: 0.45; }
 }
 
-/* --- СКРЫТИЕ ЭЛЕМЕНТОВ --- */
 .hidden { display: none !important; }
 
 /* ============================================================
@@ -523,7 +522,7 @@ body.emission::before {
 }
 
 /* ============================================================
-   TERMINAL-BORDER (используется на 404.html)
+   TERMINAL-BORDER (404)
    ============================================================ */
 .terminal-border {
     width: 100%;
@@ -641,6 +640,299 @@ footer {
 }
 
 /* ============================================================
+   НАВИГАЦИЯ МЕЖДУ СТРАНИЦАМИ
+   ============================================================ */
+.main-nav {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    gap: 4px;
+    padding: 8px 10px;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid #333;
+    border-radius: 30px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    font-family: 'Share Tech Mono', monospace;
+}
+.main-nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 5px 14px;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    transition: all 0.25s;
+}
+.main-nav a:hover {
+    color: var(--neon-blue);
+    background: rgba(0, 255, 255, 0.08);
+}
+.main-nav a.active {
+    color: var(--stalker-green);
+    background: rgba(57, 255, 20, 0.1);
+    border-color: var(--stalker-green);
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+}
+
+/* ============================================================
+   ЗАГОЛОВОК ПОДСТРАНИЦ
+   ============================================================ */
+.page-header {
+    padding: 130px 20px 50px;
+    text-align: center;
+    border-bottom: 2px solid var(--neon-pink);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 40px;
+}
+.page-header .glitch-text { margin-bottom: 10px; }
+
+/* ============================================================
+   QUICK-LINKS (карточки на главной)
+   ============================================================ */
+.quick-links {
+    padding: 40px 20px 20px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+.quick-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 800px;
+    width: 100%;
+}
+.quick-link-card {
+    display: block;
+    padding: 30px 24px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #333;
+    text-decoration: none;
+    color: var(--text-color);
+    text-align: center;
+    transition: all 0.3s;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+}
+.quick-link-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(0, 255, 255, 0.06));
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+.quick-link-card:hover {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.35);
+    transform: translateY(-4px);
+}
+.quick-link-card:hover::before { opacity: 1; }
+.quick-link-icon {
+    font-size: 2.5rem;
+    color: var(--neon-blue);
+    text-shadow: 0 0 15px var(--neon-blue);
+    margin-bottom: 12px;
+    line-height: 1;
+}
+.quick-link-card h3 {
+    color: var(--neon-pink);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.15rem;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-shadow: 0 0 8px var(--neon-pink);
+}
+.quick-link-card p {
+    font-size: 0.9rem;
+    opacity: 0.75;
+    font-family: 'Share Tech Mono', monospace;
+    line-height: 1.5;
+}
+.quick-link-arrow {
+    display: inline-block;
+    margin-top: 14px;
+    color: var(--stalker-green);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.4rem;
+    transition: transform 0.3s;
+}
+.quick-link-card:hover .quick-link-arrow { transform: translateX(6px); }
+
+/* ============================================================
+   ГАЛЕРЕЯ (заглушки)
+   ============================================================ */
+.gallery-section {
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 15px;
+    width: 100%;
+    max-width: 1100px;
+    margin-top: 10px;
+}
+.gallery-item {
+    aspect-ratio: 16 / 9;
+    border: 1px solid #333;
+    overflow: hidden;
+    border-radius: 4px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    background: #000;
+}
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.gallery-item.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        repeating-linear-gradient(45deg, transparent, transparent 12px,
+            rgba(0, 255, 255, 0.03) 12px, rgba(0, 255, 255, 0.03) 24px),
+        linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 0, 255, 0.05));
+    border: 1px dashed rgba(0, 255, 255, 0.4);
+}
+.gallery-item.placeholder::after {
+    content: '+';
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    color: rgba(0, 255, 255, 0.5);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+}
+.gallery-item.placeholder span {
+    font-family: 'Share Tech Mono', monospace;
+    color: rgba(0, 255, 255, 0.65);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 5px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+.gallery-item:hover {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.35);
+    transform: translateY(-3px);
+}
+.gallery-note {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--neon-blue);
+    opacity: 0.55;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    margin-top: 24px;
+    text-align: center;
+}
+
+/* ============================================================
+   ТАЙМЛАЙН ИСТОРИИ
+   ============================================================ */
+.timeline-section {
+    padding: 40px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+.timeline {
+    position: relative;
+    max-width: 780px;
+    width: 100%;
+    padding-left: 40px;
+    margin-top: 10px;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--neon-pink), var(--neon-blue));
+    box-shadow: 0 0 10px var(--neon-pink);
+}
+.timeline-item {
+    position: relative;
+    margin-bottom: 25px;
+    padding: 18px 22px;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid #333;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -38px;
+    top: 24px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--stalker-green);
+    box-shadow: 0 0 12px var(--stalker-green), 0 0 24px var(--stalker-green);
+}
+.timeline-item:hover {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    transform: translateX(4px);
+}
+.timeline-date {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--neon-blue);
+    font-size: 0.82rem;
+    margin-bottom: 6px;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+}
+.timeline-item h3 {
+    color: var(--neon-pink);
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgba(255, 0, 255, 0.5);
+}
+.timeline-item p {
+    color: var(--text-color);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    opacity: 0.85;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+/* Кнопка «назад» на подстраницах */
+.roster-back,
+.roster-back-section {
+    margin-top: 50px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    padding: 0 20px 30px;
+}
+
+/* ============================================================
    АДАПТИВ
    ============================================================ */
 @media (max-width: 768px) {
@@ -672,4 +964,22 @@ footer {
     }
 
     .preloader-terminal { font-size: 0.85rem; }
+
+    .main-nav {
+        top: 10px;
+        left: 10px;
+        padding: 6px 8px;
+        gap: 2px;
+    }
+    .main-nav a {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+        letter-spacing: 0.5px;
+    }
+    .page-header { padding: 100px 15px 35px; }
+    .quick-links-grid { grid-template-columns: 1fr; }
+    .timeline { padding-left: 32px; }
+    .timeline-item::before { left: -30px; width: 12px; height: 12px; }
+    .timeline-item h3 { font-size: 1.1rem; }
+    .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
 }
