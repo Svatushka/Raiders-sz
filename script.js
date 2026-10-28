@@ -53,7 +53,10 @@ const HAS_PRELOADER = !!document.getElementById('preloader');
 
 window.addEventListener('load', () => {
     setTimeout(() => {
-        AOS.init({ duration: 1000, once: true, offset: 100 });
+        // Проверяем, загружена ли библиотека AOS, прежде чем её запускать
+        if (typeof AOS !== 'undefined') {
+            AOS.init({ duration: 1000, once: true, offset: 100 });
+        }
     }, HAS_PRELOADER ? 2200 : 100);
 });
 
