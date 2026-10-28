@@ -154,15 +154,11 @@ body::after {
 /* ============================================================
    EMISSION (Konami)
    ============================================================ */
-
-/* Тряска ТОЛЬКО у контента (#page-shake),
-   чтобы position: fixed у баннера/оверлеев работал от вьюпорта */
 body.emission #page-shake {
     animation: emission-shake 0.4s infinite;
     will-change: transform;
 }
 
-/* Красный оверлей — фиксированный, не мешает fixed-потомкам */
 body.emission::before {
     content: '';
     position: fixed;
@@ -184,8 +180,6 @@ body.emission::before {
     to { opacity: 0.35; }
 }
 
-/* Плашка выброса — ВСЕГДА фиксирована к вьюпорту.
-   z-index выше прелоадера, учитывает safe-area (чёлку iPhone). */
 #emission-warning {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -218,7 +212,6 @@ body.emission::before {
 @media (pointer: fine) {
     body { cursor: none; }
     a, button, select, .theme-btn, .discord-btn { cursor: none; }
-    input, textarea { cursor: text; }
 
     .cursor-dot, .cursor-ring {
         display: block;
@@ -377,7 +370,7 @@ body.emission::before {
    ============================================================ */
 .clan-info,
 .roster-section,
-.application-section {
+.discord-section {
     padding: 60px 20px;
     display: flex;
     flex-direction: column;
@@ -489,8 +482,7 @@ body.emission::before {
 .discord-cta {
     max-width: 600px;
     width: 100%;
-    margin-bottom: 25px;
-    padding: 22px;
+    padding: 32px 24px;
     background: rgba(88, 101, 242, 0.12);
     border: 2px solid var(--discord);
     border-radius: 8px;
@@ -499,10 +491,10 @@ body.emission::before {
 }
 .discord-cta-text {
     color: var(--text-color);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     font-family: 'Share Tech Mono', monospace;
     font-size: 0.95rem;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 .discord-btn {
     display: inline-flex;
@@ -531,7 +523,7 @@ body.emission::before {
 }
 
 /* ============================================================
-   ФОРМА (terminal-border)
+   TERMINAL-BORDER (используется на 404.html)
    ============================================================ */
 .terminal-border {
     width: 100%;
@@ -557,133 +549,6 @@ body.emission::before {
 .terminal-border::after {
     bottom: -2px; right: -2px;
     border-left: none; border-top: none;
-}
-.terminal-border h2 {
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--stalker-green);
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 1.4rem;
-}
-
-/* --- WIZARD --- */
-.wizard-progress {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin-bottom: 25px;
-}
-.wizard-step-indicator {
-    width: 40px;
-    height: 4px;
-    background: #333;
-    border-radius: 2px;
-    transition: background 0.3s, box-shadow 0.3s;
-}
-.wizard-step-indicator.active {
-    background: var(--stalker-green);
-    box-shadow: 0 0 10px var(--stalker-green);
-}
-.wizard-step-indicator.done {
-    background: var(--stalker-green);
-}
-
-.wizard-step {
-    display: none;
-    animation: wizard-fade 0.35s ease;
-}
-.wizard-step.active { display: block; }
-@keyframes wizard-fade {
-    from { opacity: 0; transform: translateX(20px); }
-    to   { opacity: 1; transform: translateX(0); }
-}
-
-.input-group {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-}
-.input-group label {
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--neon-blue);
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-}
-.input-group input,
-.input-group select,
-.input-group textarea {
-    background: #111;
-    border: 1px solid #333;
-    padding: 12px;
-    color: #fff;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 1rem;
-    outline: none;
-    transition: all 0.3s;
-}
-.input-group input:focus,
-.input-group select:focus,
-.input-group textarea:focus {
-    border-color: var(--neon-pink);
-    box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
-}
-
-.honeypot {
-    position: absolute;
-    left: -9999px;
-    opacity: 0;
-    pointer-events: none;
-    width: 1px;
-    height: 1px;
-}
-
-/* --- Навигация wizard --- */
-.wizard-nav {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-.wiz-btn,
-.wiz-submit {
-    flex: 1;
-    padding: 13px;
-    background: transparent;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s;
-    border-radius: 0;
-}
-.wiz-btn.wiz-prev {
-    color: var(--neon-blue);
-    border: 2px solid var(--neon-blue);
-}
-.wiz-btn.wiz-prev:hover {
-    background: var(--neon-blue);
-    color: #000;
-    box-shadow: 0 0 15px var(--neon-blue);
-}
-.wiz-btn.wiz-next,
-.wiz-submit {
-    color: var(--neon-pink);
-    border: 2px solid var(--neon-pink);
-    box-shadow: inset 0 0 10px rgba(255, 0, 255, 0.2);
-}
-.wiz-btn.wiz-next:hover,
-.wiz-submit:hover:not(:disabled) {
-    background: var(--neon-pink);
-    color: #000;
-    box-shadow: 0 0 20px var(--neon-pink);
-}
-.wiz-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-
-#form-status {
-    margin-top: 20px;
-    text-align: center;
-    font-family: 'Share Tech Mono', monospace;
-    min-height: 1.2em;
 }
 
 /* ============================================================
@@ -783,10 +648,6 @@ footer {
     .glitch-text { font-size: 2.5rem; }
     .hero { height: 50vh; }
     .section-title { font-size: 1.8rem; }
-
-    .input-group input,
-    .input-group select,
-    .input-group textarea { font-size: 16px; }
 
     #back-to-top {
         width: 44px;
