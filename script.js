@@ -332,3 +332,96 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+// ============================================================
+//  10. БАЗА ИГРОКОВ И АВТОМАТИЧЕСКИЙ РЕНДЕР СОСТАВА
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+    const filtersContainer = document.getElementById('roster-filters');
+    const gridContainer = document.getElementById('player-grid');
+
+    // Если мы не на странице состава — выходим
+    if (!filtersContainer || !gridContainer) return;
+
+    // --- НАСТРОЙКА ОТРЯДОВ ---
+    // Здесь задаются ID отряда и его красивое название для кнопок
+    const squads = {
+        'all': 'Все',
+        'altushki': 'Альтушки',
+        'skuf': 'СКУФ',
+        'boyz': 'Бой З',
+        'ralik': 'RALIK',
+        'banka': 'BANKA',
+        'xiki': 'XIKI'
+    };
+
+    // --- БАЗА ИГРОКОВ ---
+    // Чтобы добавить нового игрока, просто скопируйте строку ниже и измените данные.
+    // squad должен совпадать с одним из ID в объекте squads выше.
+    const players = [
+        { name: "Саня_Дагон", role: "Лидер", squad: "altushki" },
+        { name: "Andrey_Kyzmichk", role: "Коллер", squad: "skuf" },
+        { name: "Cyber_Zombie", role: "Штурмовик", squad: "boyz" },
+        { name: "Void_Hacker", role: "Хакер", squad: "ralik" },
+        { name: "Steel_Sniper", role: "Снайпер", squad: "banka" },
+        { name: "Med_Tech", role: "Медик", squad: "skuf" },
+        { name: "Rust_Scav", role: "Разведчик", squad: "altushki" },
+        { name: "Neon_Rookie", role: "Новобранец", squad: "ralik" },
+        { name: "Hikikomori", role: "Разведчик", squad: "xiki" } // Пример игрока из XIKI
+    ];
+
+    // 1. Генерация кнопок фильтра
+    Object.entries(squads).forEach(([id, title], index) => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn' + (index === 0 ? ' active' : '');
+        btn.dataset.filter = id;
+        btn.textContent = title;
+        filtersContainer.appendChild(btn);
+    });
+
+    // 2. Генерация карточек игроков
+    players.forEach(player => {
+        const card = document.createElement('div');
+        card.className = 'player-card';
+        card.dataset.squad = player.squad;
+        
+        // Получаем красивое название отряда для бейджа на карточке
+        const squadTitle = squads[player.squad] || player.squad;
+
+        card.innerHTML = `
+            <h3 class="player-name">${player.name}</h3>
+            <div class="player-info">
+                <span class="player-role">${player.role}</span>
+                <span class="player-squad">${squadTitle}</span>
+            </div>
+        `;
+        
+        gridContainer.appendChild(card);
+    });
+
+    // 3. Логика фильтрации (та же, что была раньше, но теперь ищет созданные элементы)
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const playerCards = document.querySelectorAll('.player-card');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filterValue = btn.getAttribute('data-filter');
+
+            playerCards.forEach(card => {
+                const squad = card.getAttribute('data-squad');
+
+                if (filterValue === 'all' || filterValue === squad) {
+                    card.classList.remove('hidden');
+                    // Перезапуск анимации
+                    card.style.animation = 'none';
+                    card.offsetHeight; 
+                    card.style.animation = null;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+    });
+});
