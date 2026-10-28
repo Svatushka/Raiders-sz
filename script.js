@@ -2,9 +2,6 @@
    [FSBP] RAIDERS — script.js
    ============================================================ */
 
-// ⚠️ ВСТАВЬ ССЫЛКУ НА СВОЙ ВЕБХУК DISCORD НИЖЕ
-const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1564231664337428501/C8abZ01ZEyzkOd4oxOva6bLqc6i1UUxDtIqstZH1vxOqKu78ykphM83ZWK48dRw38rMO';
-
 // --- 0. ТЕМА (загружаем ДО всего, чтобы не мигало) ---
 (function initTheme() {
     const saved = localStorage.getItem('fsbp_theme') || 'cyberpunk';
@@ -15,7 +12,7 @@ const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1564231664337428501/C8
 (function cleanupOldPWA() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            for(let registration of registrations) {
+            for (let registration of registrations) {
                 registration.unregister();
                 console.log('[PWA] Старый Service Worker удален');
             }
@@ -69,15 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (typeIndex < textToType.length) {
                 typeTarget.textContent += textToType.charAt(typeIndex);
                 typeIndex++;
-                setTimeout(typeChar, 50); // Скорость печати
+                setTimeout(typeChar, 50);
             }
-        }, 2500); // Ждем завершения прелоадера
+        }, 2500);
     }
 
     // 2. Счетчик существования клана
     // ⚠️ ВПИШИ СЮДА ДАТУ ОСНОВАНИЯ КЛАНА (Год, Месяц-1, День)
-    // Например: 2024 год, Май (4), 15 число -> new Date(2024, 4, 15)
-    const clanFoundingDate = new Date(2024, 7, 18); 
+    const clanFoundingDate = new Date(2024, 7, 18);
 
     const uptimeDisplay = document.getElementById('uptime-display');
 
@@ -155,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     animate();
 
-    const hoverTargets = 'a, button, input, select, textarea, .roster-card, .theme-btn';
+    const hoverTargets = 'a, button, .roster-card, .theme-btn';
     document.querySelectorAll(hoverTargets).forEach(el => {
         el.addEventListener('mouseenter', () => ring.classList.add('hover'));
         el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
@@ -170,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let pos = 0;
 
     document.addEventListener('keydown', (e) => {
-        if (!e.key) return; 
+        if (!e.key) return;
         const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
         const expected = sequence[pos];
 
@@ -212,187 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 // ============================================================
-//  6. ФОРМА (WIZARD) — РЕАЛЬНАЯ ОТПРАВКА В DISCORD
-// ============================================================
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('clan-form');
-    const submitBtn = document.getElementById('submit-btn');
-    const statusDiv = document.getElementById('form-status');
-    const wizNext = document.getElementById('wiz-next');
-    const wizPrev = document.getElementById('wiz-prev');
-    const wizardSteps = document.querySelectorAll('.wizard-step');
-    const wizardIndicators = document.querySelectorAll('.wizard-step-indicator');
-
-    if (!form || !submitBtn || !statusDiv) return;
-
-    const DRAFT_KEY = 'fsbp_form_draft';
-    const TOTAL_STEPS = wizardSteps.length;
-    let currentStep = 1;
-
-    // Черновик
-    function saveDraft() {
-        const data = new FormData(form);
-        const draft = {};
-        data.forEach((v, k) => { if (k !== 'website') draft[k] = v; });
-        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(draft)); } catch (e) {}
-    }
-    function loadDraft() {
-        try {
-            const raw = localStorage.getItem(DRAFT_KEY);
-            if (!raw) return;
-            const draft = JSON.parse(raw);
-            Object.keys(draft).forEach(name => {
-                const field = form.querySelector(`[name="${name}"]`);
-                if (field && name !== 'website') field.value = draft[name];
-            });
-        } catch (e) {}
-    }
-    function clearDraft() {
-        try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
-    }
-    loadDraft();
-
-    let draftTimer;
-    form.addEventListener('input', () => {
-        clearTimeout(draftTimer);
-        draftTimer = setTimeout(saveDraft, 500);
-    });
-
-    // Wizard
-    function updateWizard() {
-        wizardSteps.forEach(s => {
-            s.classList.toggle('active', Number(s.dataset.step) === currentStep);
-        });
-        wizardIndicators.forEach(ind => {
-            const n = Number(ind.dataset.stepNum);
-            ind.classList.toggle('active', n === currentStep);
-            ind.classList.toggle('done', n < currentStep);
-        });
-
-        wizPrev.classList.toggle('hidden', currentStep === 1);
-        wizNext.classList.toggle('hidden', currentStep === TOTAL_STEPS);
-        submitBtn.classList.toggle('hidden', currentStep !== TOTAL_STEPS);
-    }
-
-    function validateStep(stepNum) {
-        const step = document.querySelector(`.wizard-step[data-step="${stepNum}"]`);
-        if (!step) return true;
-        const fields = step.querySelectorAll('input:not([type=hidden]):not(.honeypot), select, textarea');
-        let valid = true;
-
-        fields.forEach(field => {
-            field.style.borderColor = '';
-            const val = (field.value || '').trim();
-
-            if (field.hasAttribute('required') && !val) {
-                field.style.borderColor = '#ff0044';
-                valid = false;
-                return;
-            }
-            if (field.type === 'number' && val) {
-                const num = parseInt(val, 10);
-                const min = field.hasAttribute('min') ? parseInt(field.min, 10) : -Infinity;
-                const max = field.hasAttribute('max') ? parseInt(field.max, 10) : Infinity;
-                if (num < min || num > max) {
-                    field.style.borderColor = '#ff0044';
-                    valid = false;
-                }
-            }
-        });
-
-        if (!valid) {
-            statusDiv.textContent = '> ЗАПОЛНИТЕ ВСЕ ПОЛЯ ЭТОГО ШАГА.';
-            statusDiv.style.color = 'red';
-        } else {
-            statusDiv.textContent = '';
-        }
-        return valid;
-    }
-
-    wizNext.addEventListener('click', () => {
-        if (!validateStep(currentStep)) return;
-        if (currentStep < TOTAL_STEPS) {
-            currentStep++;
-            updateWizard();
-        }
-    });
-
-    wizPrev.addEventListener('click', () => {
-        if (currentStep > 1) {
-            currentStep--;
-            updateWizard();
-        }
-    });
-
-    updateWizard();
-
-    // Отправка
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        if (!validateStep(currentStep)) return;
-        if (submitBtn.disabled) return;
-
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'ОТПРАВКА...';
-        statusDiv.textContent = '';
-        statusDiv.style.color = '';
-
-        const data = new FormData(form);
-        const nickname = (data.get('nickname') || '').trim();
-        const age = parseInt(data.get('age'), 10);
-        const timezone = (data.get('timezone') || '').trim();
-        const occupation = data.get('occupation') || '';
-        const experience = (data.get('experience') || '').trim();
-        const contact = (data.get('contact') || '').trim();
-
-        const payload = {
-            username: 'Терминал Рейдеров [FSBP]',
-            embeds: [{
-                title: '📡 Новая заявка в клан!',
-                color: 16711935,
-                fields: [
-                    { name: '1. Ник', value: nickname, inline: true },
-                    { name: '2. Возраст', value: String(age), inline: true },
-                    { name: '3. Время от МСК', value: timezone, inline: true },
-                    { name: '4. Занятость', value: occupation, inline: true },
-                    { name: '5. Опыт в кланах', value: experience, inline: false },
-                    { name: '6. Контакты', value: contact, inline: false }
-                ],
-                timestamp: new Date().toISOString()
-            }]
-        };
-
-        const discordFormData = new FormData();
-        discordFormData.append('payload_json', JSON.stringify(payload));
-
-        try {
-            await fetch(DISCORD_WEBHOOK, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: discordFormData
-            });
-
-            statusDiv.textContent = '> ЗАЯВКА УСПЕШНО ОТПРАВЛЕНА В ШТАБ.';
-            statusDiv.style.color = '#39ff14';
-            
-            form.reset();
-            clearDraft();
-            currentStep = 1;
-            updateWizard();
-        } catch (error) {
-            statusDiv.textContent = '> ОШИБКА СЕТИ. ПРОВЕРЬТЕ ПОДКЛЮЧЕНИЕ.';
-            statusDiv.style.color = 'red';
-            console.error('[form] Ошибка:', error);
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'ОТПРАВИТЬ ЗАЯВКУ';
-        }
-    });
-});
-
-// ============================================================
-//  7. КНОПКА "НАВЕРХ"
+//  6. КНОПКА "НАВЕРХ"
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     const backToTopBtn = document.getElementById('back-to-top');
@@ -416,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================================================
-//  8. Плавный якорный скролл
+//  7. Плавный якорный скролл
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href^="#"]').forEach(link => {
