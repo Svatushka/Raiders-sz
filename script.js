@@ -245,3 +245,55 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// ============================================================
+//  8. SCROLL PROGRESS + SCANLINE ROLL
+// ============================================================
+(function initScrollProgress() {
+    const bar = document.getElementById('scroll-progress');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let ticking = false;
+
+    function update() {
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - doc.clientHeight;
+        const pct = max > 0 ? (doc.scrollTop / max) * 100 : 0;
+
+        if (bar) bar.style.width = pct + '%';
+
+        if (!reduce) {
+            const offset = -(window.scrollY * 0.35);
+            document.body.style.setProperty('--scanline-offset', offset + 'px');
+        }
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!reduce) document.body.classList.add('is-scrolling');
+
+        if (!ticking) {
+            window.requestAnimationFrame(update);
+            ticking = true;
+        }
+
+        clearTimeout(window.__scrollIdle);
+        window.__scrollIdle = setTimeout(() => {
+            document.body.classList.remove('is-scrolling');
+            if (!reduce) {
+                document.body.style.setProperty('--scanline-offset', '0px');
+            }
+        }, 180);
+    }, { passive: true });
+
+    // Пересчёт при изменении размера (например, поворот экрана)
+    window.addEventListener('resize', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(update);
+            ticking = true;
+        }
+    });
+
+    // Инициализация на случай, если страница открыта с уже прокрученной позицией
+    update();
+})();
