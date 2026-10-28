@@ -297,3 +297,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Инициализация на случай, если страница открыта с уже прокрученной позицией
     update();
 })();
+// ============================================================
+//  9. ФИЛЬТР СОСТАВА
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const playerCards = document.querySelectorAll('.player-card');
+
+    if (!filterBtns.length || !playerCards.length) return;
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // 1. Переключаем активный класс на кнопках
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // 2. Получаем выбранный фильтр
+            const filterValue = btn.getAttribute('data-filter');
+
+            // 3. Фильтруем карточки
+            playerCards.forEach(card => {
+                const squad = card.getAttribute('data-squad');
+
+                if (filterValue === 'all' || filterValue === squad) {
+                    card.classList.remove('hidden');
+                    // Перезапускаем анимацию появления
+                    card.style.animation = 'none';
+                    card.offsetHeight; // триггер рефлоу
+                    card.style.animation = null;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+    });
+});
