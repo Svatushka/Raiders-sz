@@ -1,10 +1,10 @@
 /* ============================================================
-   [FSBP] RAIDERS — style.css  
+   [FSBP] RAIDERS — style.css  (darker neon palette)
    ============================================================ */
 
 /* --- ТЕМЫ --- */
 :root {
-    /* Основные акценты */
+    /* Основные акценты (тёмный неон) */
     --neon-pink: #b3006b;
     --neon-pink-rgb: 179, 0, 107;
 
@@ -98,8 +98,19 @@ body::after {
         rgba(0, 0, 0, 0.18) 3px,
         rgba(0, 0, 0, 0) 4px
     );
+    background-position: 0 var(--scanline-offset, 0px);
     opacity: 0.5;
     animation: crt-flicker 8s infinite;
+    will-change: background-position;
+}
+
+body.is-scrolling::after {
+    animation: none;
+}
+
+body.is-scrolling #page-shake {
+    filter: brightness(1.03);
+    transition: filter 0.2s;
 }
 
 @keyframes crt-flicker {
@@ -109,6 +120,24 @@ body::after {
 }
 
 .hidden { display: none !important; }
+
+/* ============================================================
+   SCROLL PROGRESS BAR
+   ============================================================ */
+#scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+    box-shadow: 0 0 8px rgba(var(--neon-pink-rgb), 0.7),
+                0 0 16px rgba(var(--neon-blue-rgb), 0.5);
+    z-index: 100000;
+    pointer-events: none;
+    transition: width 0.08s linear;
+    will-change: width;
+}
 
 /* ============================================================
    PRELOADER
@@ -1009,4 +1038,27 @@ footer {
     .timeline-item::before { left: -30px; width: 12px; height: 12px; }
     .timeline-item h3 { font-size: 1.1rem; }
     .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+}
+
+/* ============================================================
+   PREFERS-REDUCED-MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    #scroll-progress {
+        transition: none;
+        box-shadow: 0 0 4px rgba(var(--neon-pink-rgb), 0.4);
+    }
+    body::after {
+        background-position: 0 0 !important;
+        animation: none;
+        opacity: 0.35;
+    }
+    body.is-scrolling #page-shake { filter: none; }
+    .glitch-text, .glitch-arrow, .discord-btn { animation: none !important; }
 }
