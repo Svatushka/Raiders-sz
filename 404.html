@@ -5,27 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 — Сектор потерян | [FSBP]</title>
 
-    <!-- ВАЖНО: все относительные ссылки резолвятся от корня репозитория.
-         Если переедете на свой домен или в user-site (svatushka.github.io/),
-         замените на <base href="/"> -->
     <base href="/Raiders-sz/">
 
     <meta name="robots" content="noindex, follow">
     <meta name="theme-color" content="#07070a">
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="images/okno.png?v=4">
     <link rel="icon" type="image/png" sizes="16x16" href="images/okno.png?v=4">
     <link rel="apple-touch-icon" href="images/okno.png?v=4">
     <link rel="shortcut icon" href="images/okno.png?v=4">
 
-    <!-- Fonts + CSS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
-    <!-- Тема ДО рендера, чтобы не мигало -->
     <script>
     (function () {
         try {
@@ -35,7 +29,6 @@
     })();
     </script>
 
-    <!-- Доп. стили только для 404 -->
     <style>
         .error-wrap {
             min-height: 100vh;
@@ -106,32 +99,33 @@
 </head>
 <body>
 
-    <!-- Кастомный курсор -->
     <div class="cursor-dot"></div>
     <div class="cursor-ring"></div>
 
-    <!-- Переключатель тем -->
+    <nav class="main-nav" aria-label="Основная навигация">
+        <a href="./">Главная</a>
+        <a href="roster.html">Состав</a>
+        <a href="gallery.html">Галерея</a>
+    </nav>
+
     <div class="theme-switcher" role="group" aria-label="Смена темы">
         <button data-theme="cyberpunk" class="theme-btn active" title="Киберпанк" aria-label="Киберпанк"></button>
         <button data-theme="stalker" class="theme-btn" title="Сталкер" aria-label="Сталкер"></button>
         <button data-theme="matrix" class="theme-btn" title="Матрица" aria-label="Матрица"></button>
     </div>
 
-    <!-- Контент 404 -->
     <main class="error-wrap">
         <div class="terminal-border error-terminal">
             <div class="error-code glitch-text">404</div>
             <h2 class="error-title">&gt; ОШИБКА 404</h2>
             <p class="error-text">Сектор не найден. Аномалия поглотила страницу.</p>
             <p class="error-hint">// проверьте координаты или вернитесь в штаб</p>
-            <!-- Благодаря <base href="/Raiders-sz/"> ссылка всегда ведёт в корень репозитория -->
             <a href="./" class="error-back">← Вернуться в штаб</a>
         </div>
     </main>
 
     <script>
     (function () {
-        // --- Переключатель тем ---
         var buttons = document.querySelectorAll('.theme-btn');
         var current = document.documentElement.getAttribute('data-theme') || 'cyberpunk';
 
@@ -147,7 +141,6 @@
             });
         });
 
-        // --- Кастомный курсор ---
         if (!window.matchMedia('(pointer: fine)').matches) return;
         var dot = document.querySelector('.cursor-dot');
         var ring = document.querySelector('.cursor-ring');
