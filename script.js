@@ -8,7 +8,7 @@
     document.documentElement.setAttribute('data-theme', saved);
 })();
 
-// --- 0.1 СБРОС СТАРОГО PWA (если он когда-то был установлен) ---
+// --- 0.1 СБРОС СТАРОГО PWA ---
 (function cleanupOldPWA() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(function(registrations) {
@@ -43,16 +43,18 @@
         setTimeout(hidePreloader, Math.max(0, MIN_VISIBLE - elapsed));
     });
 
-    setTimeout(hidePreloader, 5000); // Страховка
+    setTimeout(hidePreloader, 5000);
 })();
 
 // ============================================================
 //  2. AOS + ПЕЧАТНАЯ МАШИНКА + СЧЕТЧИК КЛАНА
 // ============================================================
+const HAS_PRELOADER = !!document.getElementById('preloader');
+
 window.addEventListener('load', () => {
     setTimeout(() => {
         AOS.init({ duration: 1000, once: true, offset: 100 });
-    }, 2200);
+    }, HAS_PRELOADER ? 2200 : 100);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -72,9 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 2. Счетчик существования клана
-    // ⚠️ ВПИШИ СЮДА ДАТУ ОСНОВАНИЯ КЛАНА (Год, Месяц-1, День)
     const clanFoundingDate = new Date(2024, 7, 18);
-
     const uptimeDisplay = document.getElementById('uptime-display');
 
     function updateUptime() {
@@ -112,8 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const current = document.documentElement.getAttribute('data-theme') || 'cyberpunk';
 
     buttons.forEach(btn => {
-        if (btn.dataset.theme === current) btn.classList.add('active');
-        else btn.classList.remove('active');
+        btn.classList.toggle('active', btn.dataset.theme === current);
 
         btn.addEventListener('click', () => {
             const theme = btn.dataset.theme;
@@ -151,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     animate();
 
-    const hoverTargets = 'a, button, .roster-card, .theme-btn';
+    const hoverTargets = 'a, button, .roster-card, .theme-btn, .quick-link-card, .gallery-item, .timeline-item';
     document.querySelectorAll(hoverTargets).forEach(el => {
         el.addEventListener('mouseenter', () => ring.classList.add('hover'));
         el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
