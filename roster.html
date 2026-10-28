@@ -52,126 +52,89 @@
         </header>
 
         <section class="roster-section" id="roster">
-            <div class="roster-grid new-roster-grid">
+            
+            <!-- Фильтр по отрядам -->
+            <div class="roster-filters" data-aos="fade-up">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="altushki">Альтушки</button>
+                <button class="filter-btn" data-filter="skuf">СКУФ</button>
+                <button class="filter-btn" data-filter="boyz">Бой З</button>
+                <button class="filter-btn" data-filter="ralik">RALIK</button>
+                <button class="filter-btn" data-filter="banka">BANKA</button>
+            </div>
+
+            <!-- Сетка игроков -->
+            <div class="player-grid" data-aos="fade-up" data-aos-delay="100">
                 
-                <!-- Карточка 1: Альтушки (Красная) -->
-                <div class="clan-card card-red" data-aos="fade-up" data-aos-delay="100">
-                    <div class="clan-header">
-                        <div class="clan-title-wrap">
-                            <div class="clan-icon">⚔</div>
-                            <h3>АЛЬТУШКИ ⚡</h3>
-                        </div>
-                    <div class="clan-table-header">
-                        <span class="th-player">ИГРОК</span>
-                    </div>
-                    <div class="clan-table-body">
-                        <div class="empty-players">Нет игроков</div>
+                <!-- Игрок 1 -->
+                <div class="player-card" data-squad="altushki">
+                    <h3 class="player-name">Саня_Дагон</h3>
+                    <div class="player-info">
+                        <span class="player-role">Лидер</span>
+                        <span class="player-squad">Альтушки</span>
                     </div>
                 </div>
 
-                <!-- Карточка 2: СКУФ (Синяя) -->
-                <div class="clan-card card-blue" data-aos="fade-up" data-aos-delay="200">
-                    <div class="clan-header">
-                        <div class="clan-title-wrap">
-                            <div class="clan-icon">❄</div>
-                            <h3>СКУФ ❄</h3>
-                        </div>
-                        <div class="clan-table-header">
-                        <span class="th-player">ИГРОК</span>
-                       
-                    </div>
-                    <div class="clan-table-body">
-                        <div class="empty-players">Нет игроков</div>
+                <!-- Игрок 2 -->
+                <div class="player-card" data-squad="skuf">
+                    <h3 class="player-name">Andrey_Kyzmichk</h3>
+                    <div class="player-info">
+                        <span class="player-role">Коллер</span>
+                        <span class="player-squad">СКУФ</span>
                     </div>
                 </div>
 
-                <!-- Карточка 3: БОЙ З (Зелёная) -->
-                <div class="clan-card card-teal" data-aos="fade-up" data-aos-delay="100">
-                    <div class="clan-header">
-                        <div class="clan-title-wrap">
-                            <div class="clan-icon">✂</div>
-                            <h3>БОЙ З</h3>
-                        </div>
-                    
-                    </div>
-                    <div class="clan-table-header">
-                        <span class="th-player">ИГРОК</span>
-                       
-                    </div>
-                    <div class="clan-table-body">
-                        <div class="empty-players">Нет игроков</div>
+                <!-- Игрок 3 -->
+                <div class="player-card" data-squad="boyz">
+                    <h3 class="player-name">Cyber_Zombie</h3>
+                    <div class="player-info">
+                        <span class="player-role">Штурмовик</span>
+                        <span class="player-squad">Бой З</span>
                     </div>
                 </div>
 
-                <!-- Карточка 4: RALIK (Оранжевая) -->
-                <div class="clan-card card-orange" data-aos="fade-up" data-aos-delay="200">
-                    <div class="clan-header">
-                        <div class="clan-title-wrap">
-                            <div class="clan-icon">☢</div>
-                            <h3>RALIK</h3>
-                        </div>
-                        
-                    </div>
-                    <div class="clan-table-header">
-                        <span class="th-player">ИГРОК</span>
-                        
-                    </div>
-                    <div class="clan-table-body">
-                        <div class="empty-players">Нет игроков</div>
+                <!-- Игрок 4 -->
+                <div class="player-card" data-squad="ralik">
+                    <h3 class="player-name">Void_Hacker</h3>
+                    <div class="player-info">
+                        <span class="player-role">Хакер</span>
+                        <span class="player-squad">RALIK</span>
                     </div>
                 </div>
 
-                <!-- Карточка 5: Хики (Голубая) -->
-                <div class="clan-card card-cyan" data-aos="fade-up" data-aos-delay="100">
-                    <div class="clan-header">
-                        <div class="clan-title-wrap">
-                            <div class="clan-icon">😴</div>
-                            <h3>Хики</h3>
-                        </div>
-                        
-                    </div>
-                    <div class="clan-table-header">
-                        <span class="th-player">ИГРОК</span>
-
-                    </div>
-                    <div class="clan-table-body">
-                        <div class="empty-players">Нет игроков</div>
+                <!-- Игрок 5 -->
+                <div class="player-card" data-squad="banka">
+                    <h3 class="player-name">Steel_Sniper</h3>
+                    <div class="player-info">
+                        <span class="player-role">Снайпер</span>
+                        <span class="player-squad">BANKA</span>
                     </div>
                 </div>
 
-                <!-- Карточка 6: ROWN'S (Розовая) -->
-                <div class="clan-card card-magenta" data-aos="fade-up" data-aos-delay="200">
-                    <div class="clan-header">
-                        <div class="clan-title-wrap">
-                            <div class="clan-icon">🔰</div>
-                            <h3>ROUM'S</h3>
-                        </div>
-                        
-                    </div>
-                    <div class="clan-table-header">
-                        <span class="th-player">ИГРОК</span>
-                       
-                    </div>
-                    <div class="clan-table-body">
-                        <div class="empty-players">Нет игроков</div>
+                <!-- Игрок 6 -->
+                <div class="player-card" data-squad="skuf">
+                    <h3 class="player-name">Med_Tech</h3>
+                    <div class="player-info">
+                        <span class="player-role">Медик</span>
+                        <span class="player-squad">СКУФ</span>
                     </div>
                 </div>
 
-                <!-- Карточка 7: BANKA (Салатовая) -->
-                <div class="clan-card card-green" data-aos="fade-up" data-aos-delay="100">
-                    <div class="clan-header">
-                        <div class="clan-title-wrap">
-                            <div class="clan-icon">🏦</div>
-                            <h3>BANKA 💰</h3>
-                        </div>
-                        
+                <!-- Игрок 7 -->
+                <div class="player-card" data-squad="altushki">
+                    <h3 class="player-name">Rust_Scav</h3>
+                    <div class="player-info">
+                        <span class="player-role">Разведчик</span>
+                        <span class="player-squad">Альтушки</span>
                     </div>
-                    <div class="clan-table-header">
-                        <span class="th-player">ИГРОК</span>
-                        
-                    </div>
-                    <div class="clan-table-body">
-                        <div class="empty-players">Нет игроков</div>
+                </div>
+
+                <!-- Игрок 8 -->
+                <div class="player-card" data-squad="ralik">
+                    <h3 class="player-name">Neon_Rookie</h3>
+                    <div class="player-info">
+                        <span class="player-role">Новобранец</span>
+                        <span class="player-squad">RALIK</span>
                     </div>
                 </div>
 
