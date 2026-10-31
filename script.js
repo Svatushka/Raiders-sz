@@ -354,7 +354,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'boyz': 'Бой З',
         'ralik': 'RALIK',
         'banka': 'BANKA',
-        'xiki': 'XIKI'
+        'xiki': 'XIKI',
+       'roum': 'Roum`s'
     };
 
     // --- БАЗА ИГРОКОВ ---
@@ -363,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const players = [
         { name: "Саня_Дагон", role: "Лидер", squad: "altushki" },
         { name: "Andrey_Kyzmichk", role: "Коллер", squad: "skuf" },
-        { name: "Cyber_Zombie", role: "Штурмовик", squad: "boyz" },
+        { name: "Rikso", role: "Капитан отряда", squad: "roum" },
         { name: "Void_Hacker", role: "Хакер", squad: "ralik" },
         { name: "Steel_Sniper", role: "Снайпер", squad: "banka" },
         { name: "Med_Tech", role: "Медик", squad: "skuf" },
