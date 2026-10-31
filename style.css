@@ -297,7 +297,89 @@ body.emission::before {
     body { cursor: auto; }
     .cursor-dot, .cursor-ring { display: none; }
 }
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq-section {
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
 
+.faq-list {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq-item {
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.faq-item[open] {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 15px rgba(var(--neon-pink-rgb), 0.2);
+}
+
+.faq-question {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1rem;
+    color: var(--neon-blue);
+    padding: 18px 20px;
+    cursor: pointer;
+    list-style: none; /* убираем стандартный маркер */
+    position: relative;
+    transition: color 0.3s;
+    text-shadow: 0 0 6px rgba(var(--neon-blue-rgb), 0.5);
+}
+
+/* Убираем стандартную стрелку в WebKit */
+.faq-question::-webkit-details-marker {
+    display: none;
+}
+
+/* Кастомный маркер + / − */
+.faq-question::after {
+    content: '+';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.4rem;
+    color: var(--neon-pink);
+    transition: transform 0.3s;
+}
+
+.faq-item[open] .faq-question::after {
+    content: '−';
+}
+
+.faq-question:hover {
+    color: var(--neon-pink);
+}
+
+.faq-answer {
+    padding: 0 20px 18px 20px;
+    font-family: 'Rajdhani', sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.faq-answer p {
+    margin-top: 12px;
+    opacity: 0.9;
+}
 /* ============================================================
    ПЕРЕКЛЮЧАТЕЛЬ ТЕМ
    ============================================================ */
