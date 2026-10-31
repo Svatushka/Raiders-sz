@@ -362,15 +362,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Чтобы добавить нового игрока, просто скопируйте строку ниже и измените данные.
     // squad должен совпадать с одним из ID в объекте squads выше.
     const players = [
-        { name: "Саня_Дагон", role: "Лидер", squad: "altushki" },
-        { name: "Andrey_Kyzmichk", role: "Коллер", squad: "skuf" },
+        { name: "Саня_Дагон", role: "Лидер", squad: "xiki" },
+        { name: "Andrey_Kyzmichk", role: "Коллер", squad: "xiki" },
         { name: "Rikso", role: "Капитан отряда", squad: "roum" },
-        { name: "Void_Hacker", role: "Хакер", squad: "ralik" },
-        { name: "Steel_Sniper", role: "Снайпер", squad: "banka" },
-        { name: "Med_Tech", role: "Медик", squad: "skuf" },
-        { name: "Rust_Scav", role: "Разведчик", squad: "altushki" },
-        { name: "Neon_Rookie", role: "Новобранец", squad: "ralik" },
-        { name: "Hikikomori", role: "Разведчик", squad: "xiki" } // Пример игрока из XIKI
+        { name: "Узбек_Васильевич", role: "Капитан отряда", squad: "ralik" },
     ];
 
     // 1. Генерация кнопок фильтра
